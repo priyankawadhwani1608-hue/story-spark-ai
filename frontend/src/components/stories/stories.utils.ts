@@ -38,20 +38,60 @@ export const doPublishAccessibility = (subscriptionType: string) => {
 export const SELECTED_TOPIC_CLASSES = "bg-indigo-100 text-indigo-800";
 export const UNSELECTED_TOPIC_CLASSES = "bg-slate-700 text-slate-300";
 
+
+
+
+
 export interface ITopicData {
   title: string;
-  className: string;
+  color?: string;
+  className?: string;
   selected: boolean;
 }
 
 export const topicsData: ITopicData[] = [
-  { title: "#AIWriting", className: SELECTED_TOPIC_CLASSES, selected: true },
-  { title: "#StoryGeneration", className: SELECTED_TOPIC_CLASSES, selected: true },
-  { title: "#Writing", className: UNSELECTED_TOPIC_CLASSES, selected: false },
-  { title: "#Creativity", className: UNSELECTED_TOPIC_CLASSES, selected: false },
-  { title: "#DigitalMarketing", className: UNSELECTED_TOPIC_CLASSES, selected: false },
-  { title: "#Storytelling", className: UNSELECTED_TOPIC_CLASSES, selected: false },
-  { title: "#Productivity", className: UNSELECTED_TOPIC_CLASSES, selected: false },
+  {
+    title: "#AIWriting",
+    color: "bg-blue-100 text-blue-800",
+    className: SELECTED_TOPIC_CLASSES,
+    selected: true,
+  },
+  {
+    title: "#StoryGeneration",
+    color: "bg-purple-100 text-purple-800",
+    className: SELECTED_TOPIC_CLASSES,
+    selected: true,
+  },
+  {
+    title: "#Writing",
+    color: "bg-blue-100 text-blue-800",
+    className: UNSELECTED_TOPIC_CLASSES,
+    selected: false,
+  },
+  {
+    title: "#Creativity",
+    color: "bg-green-100 text-green-800",
+    className: UNSELECTED_TOPIC_CLASSES,
+    selected: false,
+  },
+  {
+    title: "#DigitalMarketing",
+    color: "bg-yellow-100 text-yellow-800",
+    className: UNSELECTED_TOPIC_CLASSES,
+    selected: false,
+  },
+  {
+    title: "#Storytelling",
+    color: "bg-purple-100 text-purple-800",
+    className: UNSELECTED_TOPIC_CLASSES,
+    selected: false,
+  },
+  {
+    title: "#Productivity",
+    color: "bg-red-100 text-red-800",
+    className: UNSELECTED_TOPIC_CLASSES,
+    selected: false,
+  },
 ];
 
 export const getWordCount = (str: string) => {

@@ -10,11 +10,11 @@ const FooterComponent = () => {
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-if (!email || !emailRegex.test(email)) {
-  setStatus("error");
-  setMessage("Please enter a valid email.");
-  return;
-}
+    if (!email || !emailRegex.test(email)) {
+      setStatus("error");
+      setMessage("Please enter a valid email.");
+      return;
+    }
     setStatus("loading");
     try {
       const res = await fetch(
@@ -42,15 +42,29 @@ if (!email || !emailRegex.test(email)) {
 
   const platformLinks = [
     { label: "About Us", to: "/about-us" },
-    { label: "Careers",  to: "/career"   },
-    { label: "Contact",  to: "/contact-us"},
+    { label: "Careers", to: "/career" },
+    { label: "Contact", to: "/contact-us" },
   ];
 
   const resourceLinks = [
-    { label: "Blog",        to: "/blog"       },
-    { label: "Help Center", to: "/help-center" },
-    { label: "Community",   to: "/community"  },
-    { label: "Guidelines",  to: "/guidelines" },
+    { label: "Blog", to: "/blog" },
+    { label: "Help Center", to: "/help" },
+    { label: "Community", to: "/community" },
+    { label: "Guidelines", to: "/guidelines" },
+    { label: "Contributors", to: "/contributors" },
+  ];
+
+  const legalLinks = [
+    { label: "Privacy Policy", to: "/privacy-policy" },
+    { label: "Terms & Conditions", to: "/terms" },
+    { label: "Guidelines", to: "/guidelines" },
+  ];
+
+  const socialLinks = [
+    { icon: "fa-instagram", url: "https://www.instagram.com/" },
+    { icon: "fa-linkedin", url: "https://www.linkedin.com/" },
+    { icon: "fa-twitter", url: "https://x.com/" },
+    { icon: "fa-facebook", url: "https://www.facebook.com/" },
   ];
 
   return (
@@ -107,7 +121,7 @@ if (!email || !emailRegex.test(email)) {
         }}
       />
 
-      <div className="relative z-10 max-w-[1450px] mx-auto px-8 lg:px-10 pt-14 pb-9">
+      <div className="relative z-10 max-w-[1450px] mx-auto px-8 lg:px-10 pt-14 pb-16 lg:pb-20">
         <div className="grid grid-cols-12 gap-x-6 gap-y-10 items-start">
 
           {/* Brand */}
@@ -160,7 +174,40 @@ if (!email || !emailRegex.test(email)) {
               ))}
             </ul>
           </div>
+          {/* Legal */}
+          <div className="col-span-6 md:col-span-2 flex flex-col gap-4">
+            <h3 className="text-[11.5px] font-bold tracking-[0.22em] uppercase text-white/70">
+              Legal
+            </h3>
 
+            <ul className="flex flex-col gap-[12.5px]">
+              {legalLinks.map(({ label, to }) => (
+                <li key={to}>
+                  <Link
+                    to={to}
+                    className="text-slate-300/85 hover:text-blue-300"
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            <div className="flex gap-3 pt-2">
+              {socialLinks.map((item) => (
+                <a
+                  key={item.icon}
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i
+                    className={`fa-brands ${item.icon} text-slate-300 hover:text-blue-300 transition-colors`}
+                  />
+                </a>
+              ))}
+            </div>
+          </div>
           {/* Newsletter */}
           <div className="col-span-12 md:col-span-3 flex flex-col gap-3.5">
             <h3 className="text-[11.5px] font-bold tracking-[0.22em] uppercase text-white/70">Stay Updated</h3>
@@ -194,16 +241,16 @@ if (!email || !emailRegex.test(email)) {
             </form>
 
             <div aria-live="polite" role="status">
-  {status === "success" && (
-    <p className="text-[12.5px] text-green-400 mt-1">{message}</p>
-  )}
-  {status === "error" && (
-    <p className="text-[12.5px] text-red-400 mt-1" aria-live="assertive">{message}</p>
-  )}
-  {status === "loading" && (
-    <p className="text-[12.5px] text-blue-400 mt-1">Subscribing...</p>
-  )}
-</div>
+              {status === "success" && (
+                <p className="text-[12.5px] text-green-400 mt-1">{message}</p>
+              )}
+              {status === "error" && (
+                <p className="text-[12.5px] text-red-400 mt-1" aria-live="assertive">{message}</p>
+              )}
+              {status === "loading" && (
+                <p className="text-[12.5px] text-blue-400 mt-1">Subscribing...</p>
+              )}
+            </div>
 
           </div>
         </div>
@@ -216,26 +263,26 @@ if (!email || !emailRegex.test(email)) {
           }}
         />
 
-        <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[12px] text-slate-400/80">
+        <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[12px] text-slate-400/80 pr-10 sm:pr-12 lg:pr-16">
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-2.5 gap-y-1">
             <span className="text-slate-400/80">&copy; 2025 StorySparkAI. All rights reserved.</span>
             <span className="hidden sm:inline text-white/[0.12]">|</span>
             <span className="italic text-slate-400/60">Crafted for storytellers</span>
           </div>
+
           <div className="flex items-center gap-2.5">
-            {[
-              { label: "Privacy Policy", path: "/privacy-policy" },
-              { label: "Terms", path: "/terms" },
-              { label: "Cookies", path: "/privacy-policy" },
-            ].map((item, i, arr) => (
-              <span key={item.label} className="flex items-center gap-2.5">
+            {legalLinks.map(({ label, to }, i) => (
+              <span key={to} className="flex items-center gap-2">
                 <Link
-                  to={item.path}
-                  className="text-slate-400/80 transition-colors duration-200 hover:text-blue-300"
+                  to={to}
+                  className="text-slate-400/80 hover:text-blue-300"
                 >
-                  {item.label}
+                  {label}
                 </Link>
-                {i < arr.length - 1 && <span className="text-white/[0.12]">|</span>}
+
+                {i < legalLinks.length - 1 && (
+                  <span className="text-white/[0.12]">|</span>
+                )}
               </span>
             ))}
           </div>

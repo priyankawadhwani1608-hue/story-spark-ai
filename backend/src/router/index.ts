@@ -9,6 +9,7 @@ import { CommentRouter } from "../app/modules/comment/comment.router";
 import { AnalysisRouter } from "../app/modules/analysis/analysis.router";
 import { ReviewRouter } from "../app/modules/review/review.router";
 import { ReactionRouter } from "../app/modules/reaction/reaction.router";
+import { ContactRoutes } from "../app/modules/contact/contact.route";
 
 import { NewsletterRouter } from "../app/modules/newsletter/newsletter.route";
 
@@ -69,6 +70,10 @@ const modules = [
   {
     path: "/bookmarks",
     router: BookmarkRouter,
+  },
+  {
+    path: "/contact",
+    router: ContactRoutes,
   },
 ];
 modules.forEach((route) => router.use(route.path, route.router));

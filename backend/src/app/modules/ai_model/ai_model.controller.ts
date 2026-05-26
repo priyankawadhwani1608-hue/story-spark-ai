@@ -58,7 +58,51 @@ const aiFreeModelGenerate = catchAsync(async (req: Request, res: Response) => {
   }
 });
 
+const aiModelAlternateEndings = catchAsync(async (req: Request, res: Response) => {
+  const payload = req.body;
+  const token = await getToken(req);
+  const result = await AiModelService.aiModelAlternateEndings(payload, token);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Alternate endings generated successfully!",
+    data: result,
+  });
+});
+
+const aiFreeModelAlternateEndings = catchAsync(async (req: Request, res: Response) => {
+  const payload = req.body;
+  let userId = req.cookies.userId;
+  if (!userId) {
+    userId = Math.random().toString(36).substring(7);
+    res.cookie("userId", userId, { maxAge: 30 * 24 * 60 * 60 * 1000 });
+  }
+  if (!storyGenerationCounts[userId]) {
+    storyGenerationCounts[userId] = 0;
+  }
+  
+  if (storyGenerationCounts[userId] > 3) {
+    return sendResponse(res, {
+      statusCode: httpStatus.FORBIDDEN,
+      success: false,
+      message: "You have reached the maximum limit of 3 story generations.",
+    });
+  }
+  
+  const result = await AiModelService.aiFreeModelAlternateEndings(payload);
+  storyGenerationCounts[userId] += 1;
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Alternate endings generated successfully!",
+    data: result,
+  });
+});
+
 export const AiModelController = {
   aiModelGenerate,
   aiFreeModelGenerate,
+  aiModelAlternateEndings,
+  aiFreeModelAlternateEndings,
 };
+
