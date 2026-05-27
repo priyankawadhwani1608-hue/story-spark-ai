@@ -228,7 +228,7 @@ const StoriesComponent = () => {
 
   return (
     <div className="min-h-screen bg-white text-slate-900 animate-gradient-slow transition-colors duration-300 dark:bg-[#0b1329] dark:text-white">
-      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 pb-32">
         <div className="py-6 flex flex-col md:flex-row items-center md:items-start justify-between gap-4">
           <div className="pt-2 w-full md:w-auto flex justify-start">
             <Link to="/">
@@ -518,7 +518,7 @@ const StoriesComponent = () => {
     </button>
 
     {isDropdownOpen && (
-      <ul className="absolute z-10 w-full mt-1 max-h-60 overflow-y-auto bg-slate-800 border border-slate-700/50 rounded-lg shadow-xl focus:outline-none divide-y divide-slate-700/30">
+      <ul className="relative z-10 w-full mt-2 max-h-60 overflow-y-auto bg-slate-800 border border-slate-700/50 rounded-lg shadow-xl focus:outline-none divide-y divide-slate-700/30">
         {prompts.map((item) => (
           <li key={item.id}>
             <button
@@ -567,9 +567,7 @@ const StoriesComponent = () => {
         </div>
       )}
 
-{loading && (
-  <StoryGeneratingAnimation onCancel={handleCancelGeneration} />
-)}
+      {loading && <StoryGeneratingAnimation onCancel={handleCancelGeneration} />}
       <StoriesViewComponent
         stories={stories}
         isLogin={login}

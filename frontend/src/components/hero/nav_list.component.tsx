@@ -171,9 +171,7 @@ const NavListComponent: React.FC = () => {
                 </>
               )}
           </div>
-
-          {/* Actions */}
-          <div className="flex items-center shrink-0 gap-3">
+          <div className="flex items-center gap-3">
             <div className="hidden md:flex items-center gap-3">
               <button
                 type="button"
@@ -181,7 +179,7 @@ const NavListComponent: React.FC = () => {
                 onClick={() => navigate("/help-center")}
                 className="p-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all duration-300"
               >
-                <i className="fas fa-search"></i>
+                <i className="fas fa-circle-question"></i>
               </button>
               {isLogin ? (
                 <button onClick={handelLogout} className="text-slate-600 dark:text-slate-400 px-4 py-2 font-medium cursor-pointer rounded-md hover:bg-slate-200/60 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white transition-all duration-300">

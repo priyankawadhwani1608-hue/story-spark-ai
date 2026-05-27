@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useRef, useState, type MouseEvent } from "react";
 import type { ReactNode } from "react";
+import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
@@ -41,11 +42,13 @@ const features = [
 ];
 
 type Feature = {
+interface Feature {
   title: string;
   description: string;
   bgClass: string;
   icon: ReactNode;
 };
+}
 
 const FeatureCard = ({ feature }: { feature: Feature }) => {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -123,10 +126,120 @@ const FeatureCard = ({ feature }: { feature: Feature }) => {
   );
 };
 
+/* Ambient Particle System - GSAP powered */
+const PARTICLE_CONFIG = [
+  { color: "#60a5fa", size: 14, left: "8%", top: "18%", xMove: 40, yMove: -60, dur: 5 },
+  { color: "#a78bfa", size: 10, left: "22%", top: "55%", xMove: -30, yMove: -70, dur: 6 },
+  { color: "#f472b6", size: 12, left: "68%", top: "12%", xMove: 50, yMove: -40, dur: 4.5 },
+  { color: "#34d399", size: 8, left: "82%", top: "42%", xMove: -40, yMove: -50, dur: 7 },
+  { color: "#fb923c", size: 11, left: "48%", top: "72%", xMove: 35, yMove: -55, dur: 5.5 },
+  { color: "#38bdf8", size: 10, left: "12%", top: "78%", xMove: -25, yMove: -65, dur: 6.5 },
+  { color: "#818cf8", size: 16, left: "58%", top: "50%", xMove: 45, yMove: -35, dur: 4 },
+  { color: "#c084fc", size: 9, left: "38%", top: "28%", xMove: -35, yMove: -45, dur: 7.5 },
+  { color: "#67e8f9", size: 12, left: "88%", top: "68%", xMove: 30, yMove: -50, dur: 5.8 },
+  { color: "#fbbf24", size: 13, left: "32%", top: "8%", xMove: -20, yMove: -70, dur: 6.2 },
+  { color: "#86efac", size: 8, left: "76%", top: "82%", xMove: 50, yMove: -30, dur: 5 },
+  { color: "#f9a8d4", size: 10, left: "4%", top: "48%", xMove: -45, yMove: -55, dur: 8 },
+  { color: "#93c5fd", size: 18, left: "52%", top: "38%", xMove: 0, yMove: -25, dur: 9 },
+  { color: "#c4b5fd", size: 15, left: "18%", top: "32%", xMove: 0, yMove: -30, dur: 10 },
+  { color: "#fda4af", size: 12, left: "72%", top: "22%", xMove: 0, yMove: -20, dur: 8 },
+];
+
+const HeroParticles = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const particles = container.querySelectorAll(".gsap-particle");
+    particles.forEach((particle, i) => {
+      const config = PARTICLE_CONFIG[i];
+      gsap.to(particle, {
+        x: config.xMove,
+        y: config.yMove,
+        scale: 1.4,
+        opacity: 0.9,
+        duration: config.dur / 2,
+        ease: "sine.inOut",
+        yoyo: true,
+        repeat: -1,
+        delay: i * 0.3,
+      });
+    });
+  }, { scope: containerRef });
+
+  return (
+    <div ref={containerRef} className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 1 }} aria-hidden="true">
+      {PARTICLE_CONFIG.map((p, i) => (
+        <span
+          key={i}
+          className="gsap-particle"
+          style={{
+            position: "absolute",
+            borderRadius: "9999px",
+            left: p.left,
+            top: p.top,
+            width: p.size,
+            height: p.size,
+            opacity: 0.3,
+            background: `radial-gradient(circle, ${p.color}, ${p.color}88, transparent)`,
+            boxShadow: `0 0 ${p.size * 4}px ${p.color}, 0 0 ${p.size * 8}px ${p.color}44`,
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
 const HeroSectionComponent = () => {
   const [stars, setStars] = useState<Array<{ id: number; x: number; y: number; size: number }>>([]);
   const nextStarId = useRef(1);
   const starTimers = useRef<number[]>([]);
+  const badgeRef = useRef<HTMLDivElement>(null);
+
+  // GSAP badge float + glow + animated border
+  useGSAP(() => {
+    const badge = badgeRef.current;
+    if (!badge) return;
+
+    // Side-to-side motion
+    gsap.fromTo(badge,
+      { x: -10 },
+      {
+        x: 10,
+        duration: 2,
+        ease: "sine.inOut",
+        yoyo: true,
+        repeat: -1,
+      }
+    );
+
+    // Glowing box-shadow
+    gsap.to(badge, {
+      boxShadow: "0 0 16px rgba(59, 130, 246, 0.45), 0 0 40px rgba(139, 92, 246, 0.2)",
+      duration: 1.2,
+      ease: "sine.inOut",
+      yoyo: true,
+      repeat: -1,
+    });
+
+    // Color-changing moving border effect
+    gsap.to(badge, {
+      borderColor: "rgba(244, 114, 182, 0.8)", // Pink
+      duration: 1,
+      repeat: -1,
+      yoyo: true,
+      ease: "none",
+      keyframes: {
+        "0%": { borderColor: "rgba(59, 130, 246, 0.8)" },  // Blue
+        "25%": { borderColor: "rgba(167, 139, 250, 0.8)" }, // Purple
+        "50%": { borderColor: "rgba(244, 114, 182, 0.8)" }, // Pink
+        "75%": { borderColor: "rgba(52, 211, 153, 0.8)" },  // Emerald
+        "100%": { borderColor: "rgba(59, 130, 246, 0.8)" }  // Blue
+      }
+    });
+  });
 
   const handleMouseMove = (event: MouseEvent<HTMLDivElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
@@ -159,16 +272,24 @@ const HeroSectionComponent = () => {
       <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-sky-200/55 dark:bg-blue-600/20 rounded-full blur-[120px] pointer-events-none -z-10 transition-colors duration-300" />
       <div className="absolute top-[20%] right-[-10%] w-[500px] h-[500px] bg-fuchsia-200/45 dark:bg-purple-600/20 rounded-full blur-[120px] pointer-events-none -z-10 transition-colors duration-300" />
 
+      <HeroParticles />
+
       <div className="relative overflow-hidden" onMouseMove={handleMouseMove}>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-20 text-center">
-          <div className="motion-card-subtle inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 backdrop-blur-md mb-8 shadow-sm cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700/50 hover:border-blue-400/30 transition-all duration-300">
-            <span className="flex h-2.5 w-2.5 rounded-full bg-blue-400 animate-pulse"></span>
+          <div
+            ref={badgeRef}
+            className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-white/80 dark:bg-slate-800/60 border border-blue-400/30 dark:border-blue-500/30 backdrop-blur-md mb-8 shadow-sm cursor-pointer transition-all duration-300"
+          >
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+            </span>
             <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 tracking-wide">StorySparkAI v2.0 is live</span>
           </div>
 
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-tight">
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
             Ignite Your Imagination With <br className="hidden sm:block" />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 drop-shadow-sm pb-2">
+            <span className="hero-gradient-text pb-2">
               AI-Driven Storytelling
             </span>
           </h1>

@@ -159,6 +159,15 @@ const LoginComponent = () => {
               register={register}
             />
 
+            <div className="flex justify-end -mt-2">
+              <a
+                href="/forgot-password"
+                className="text-xs font-semibold text-blue-400 hover:text-blue-300 transition-colors duration-200"
+              >
+                Forgot Password?
+              </a>
+            </div>
+
             <SSButton
               text="Sign In"
               type="submit"

@@ -58,10 +58,16 @@ const FooterComponent = () => {
 
 
   const legalLinks = [
-    { label: "Privacy Policy", to: "/privacy-policy" },
-    { label: "Terms & Conditions", to: "/terms" },
+    { label: "Privacy", to: "/privacy-policy" },
+    { label: "Terms", to: "/terms" },
     { label: "Guidelines", to: "/guidelines" },
-    { label: "Report a Bug", to: "/report-bug" },
+  ];
+
+  const socialLinks = [
+    { icon: "fa-instagram", url: "https://www.instagram.com/" },
+    { icon: "fa-linkedin", url: "https://www.linkedin.com/" },
+    { icon: "fa-twitter", url: "https://x.com/" },
+    { icon: "fa-facebook", url: "https://www.facebook.com/" },
   ];
 
   const currentYear = new Date().getFullYear();
@@ -166,17 +172,26 @@ const FooterComponent = () => {
               ))}
             </ul>
           </div>
-
-          {/* Legal */}
+          {/* Follow Us */}
           <div className="col-span-6 md:col-span-2 flex flex-col gap-4">
-            <h3 className="text-[11.5px] font-bold tracking-[0.22em] uppercase text-white/70">Legal</h3>
+            <h3 className="text-[11.5px] font-bold tracking-[0.22em] uppercase text-white/70">
+              Follow Us
+            </h3>
+
             <ul className="flex flex-col gap-[12.5px]">
-              {legalLinks.map(({ label, to }) => (
-                <li key={to}>
-                  <Link to={to} className="group relative inline-flex text-[14px] leading-none text-slate-300/85 transition-colors duration-200 hover:text-blue-300">
-                    {label}
-                    <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-blue-400/40 transition-all duration-300 ease-out group-hover:w-full" />
-                  </Link>
+              {socialLinks.map((item) => (
+                <li key={item.icon}>
+                  <a
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center gap-2.5 text-[14px] text-slate-300/85 hover:text-blue-300 transition-all duration-200"
+                  >
+                    <i
+                      className={`fa-brands ${item.icon} text-[15px] text-slate-400 group-hover:text-blue-300 transition-colors`}
+                    />
+                    <span className="capitalize">{item.icon.replace("fa-", "")}</span>
+                  </a>
                 </li>
               ))}
             </ul>
