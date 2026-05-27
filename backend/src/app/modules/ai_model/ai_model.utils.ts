@@ -91,56 +91,20 @@ export async function generateWithGeminiStories(
         The stories MUST be written entirely in the ${language} language.
         Each story should be in JSON format with fields: "title", "content", and "tag".
         Ensure each story is approximately ${wordLength} words long.
-        The "tag" field should contain a 1-2 word genre or theme in English (e.g., "drama", "comedy", "fantasy") so it can be used for image lookup, while the "title" and "content" MUST be written in the ${language} language.
-        Return the output as a JSON array.`
+ main
     );
 
     throwIfAborted(signal);
 
     const text = response.response.text();
-    let stories: Story[];
-
-    try {
-      stories = JSON.parse(text);
-    } catch (parseError: unknown) {
-      const parseErrorMsg = parseError instanceof Error ? parseError.message : String(parseError);
-      throw new ApiError(
-        httpStatus.INTERNAL_SERVER_ERROR,
-        `Gemini returned invalid JSON for story generation: ${parseErrorMsg}`
-      );
-    }
-
-    if (!Array.isArray(stories) || stories.length === 0) {
-      throw new ApiError(
-        httpStatus.INTERNAL_SERVER_ERROR,
-        "Gemini returned no stories or invalid story structure"
-      );
-    }
-
-    const imageResults = await Promise.all(
-      stories.map(async (story) => {
-        throwIfAborted(signal);
-        return fetchImageURL(story.tag);
-      })
-    );
-
-    throwIfAborted(signal);
-
+ main
     return stories.map((story, index) => ({
       ...story,
       language,
       imageURL: imageResults[index].imageUrl,
       uuid: uuidv4(),
     }));
-  } catch (error: unknown) {
-    if (error instanceof ApiError || error instanceof GenerationAbortedError) {
-      throw error;
-    }
-    const errorMsg = error instanceof Error ? error.message : String(error);
-    throw new ApiError(
-      httpStatus.INTERNAL_SERVER_ERROR,
-      `AI generation failed: ${errorMsg}`
-    );
+ main
   }
 }
 
