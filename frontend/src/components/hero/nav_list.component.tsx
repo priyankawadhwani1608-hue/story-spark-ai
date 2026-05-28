@@ -97,124 +97,108 @@ const NavListComponent: React.FC = () => {
           {/* Navigation Links */}
           <div className="hidden lg:flex flex-1 items-center justify-center space-x-1.5 xl:space-x-3 px-4">
             <NavLink to="/" end className={({ isActive }) => getLinkClass(isActive)}>
-                {({ isActive }) => (
-                  <>
-                    {isActive && (
-                      <span className="w-1.5 h-1.5 bg-custom rounded-full mr-1.5 animate-pulse shadow-[0_0_8px_#3b82f6]" />
-                    )}
-                    <i className="fa-solid fa-house mr-1.5"></i>
-                    HOME
-                  </>
-                )}
-              </NavLink>
-              <NavLink to="/explore" className={({ isActive }) => getLinkClass(isActive)}>
-                {({ isActive }) => (
-                  <>
-                    {isActive && (
-                      <span className="w-1.5 h-1.5 bg-custom rounded-full mr-1.5 animate-pulse shadow-[0_0_8px_#3b82f6]" />
-                    )}
-                    <i className="fa-solid fa-compass mr-1.5"></i>
-                    EXPLORE
-                  </>
-                )}
-              </NavLink>
-              <NavLink to="/story-inspiration" className={({ isActive }) => getLinkClass(isActive)}>
-                {({ isActive }) => (
-                  <>
-                    {isActive && (
-                      <span className="w-1.5 h-1.5 bg-custom rounded-full mr-1.5 animate-pulse shadow-[0_0_8px_#3b82f6]" />
-                    )}
-                    <i className="fa-solid fa-book-open mr-1.5"></i>
-                    INSPIRING STORIES
-                  </>
-                )}
-              {({ isActive }) => renderNavContent("HOME", isActive)}
-            </NavLink>
-              <NavLink to="/explore" className={({ isActive }) => getLinkClass(isActive)}>
-                {({ isActive }) => renderNavContent("EXPLORE", isActive)}
-              </NavLink>
-              <NavLink to="/story-inspiration" className={({ isActive }) => getLinkClass(isActive)}>
-                {({ isActive }) => renderNavContent("INSPIRING STORIES", isActive)}
-              </NavLink>
-              <NavLink to="/analytics" className={({ isActive }) => getLinkClass(isActive)}>
-                {({ isActive }) => (
-                  <>
-                    {isActive && (
-                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-custom animate-pulse shadow-[0_0_8px_#3b82f6]" />
-                    )}
-                    <i className="fa-solid fa-chart-column mr-1.5"></i>
-                    ANALYTICS
-                  </>
-                )}
-              </NavLink>
-              <NavLink to="/collab" className={({ isActive }) => getLinkClass(isActive)}>
-                {({ isActive }) => (
-                  <>
-                    {isActive && (
-                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-custom animate-pulse shadow-[0_0_8px_#3b82f6]" />
-                    )}
-                    <i className="fa-solid fa-pen-nib mr-1.5"></i>
-                    COLLAB
-                  </>
-                )}
-              </NavLink>
-              <NavLink to="/contact-us" className={({ isActive }) => getLinkClass(isActive)}>
-                {({ isActive }) => (
-                  <>
-                    {isActive && (
-                      <span className="w-1.5 h-1.5 bg-custom rounded-full mr-1.5 animate-pulse shadow-[0_0_8px_#3b82f6]" />
-                    )}
-                    <i className="fa-solid fa-envelope mr-1.5"></i>
-                    CONTACT US
-                  </>
-                )}
-              </NavLink>
-              <NavLink to="/community" className={({ isActive }) => getLinkClass(isActive)}>
-                {({ isActive }) => (
-                  <>
-                    {isActive && (
-                      <span className="w-1.5 h-1.5 bg-custom rounded-full mr-1.5 animate-pulse shadow-[0_0_8px_#3b82f6]" />
-                    )}
-                    <i className="fa-solid fa-users mr-1.5"></i>
-                    COMMUNITY
-                  </>
-                )}
-                {({ isActive }) => renderNavContent("CONTACT US", isActive)}
-              </NavLink>
-              <NavLink to="/community" className={({ isActive }) => getLinkClass(isActive)}>
-                {({ isActive }) => renderNavContent("COMMUNITY", isActive)}
-
-              </NavLink>
-              {isLogin && (
+              {({ isActive }) => (
                 <>
-                  <NavLink to="/bookmarks" className={({ isActive }) => getLinkClass(isActive)}>
-                    {({ isActive }) => (
-                      <>
-                        {isActive && (
-                          <span className="w-1.5 h-1.5 bg-custom rounded-full mr-1.5 animate-pulse shadow-[0_0_8px_#3b82f6]" />
-                        )}
-                        <i className="fa-solid fa-bookmark mr-1.5"></i>
-                        SAVED STORIES
-                      </>
-                    )}
-                  </NavLink>
-                  <NavLink to="/dashboard" className={({ isActive }) => getLinkClass(isActive)}>
-                    {({ isActive }) => (
-                      <>
-                        {isActive && (
-                          <span className="w-1.5 h-1.5 bg-custom rounded-full mr-1.5 animate-pulse shadow-[0_0_8px_#3b82f6]" />
-                        )}
-                        <i className="fa-solid fa-table-columns mr-1.5"></i>
-                        DASHBOARD
-                      </>
-                    )}
-                    {({ isActive }) => renderNavContent("SAVED STORIES", isActive)}
-                  </NavLink>
-                  <NavLink to="/dashboard" className={({ isActive }) => getLinkClass(isActive)}>
-                    {({ isActive }) => renderNavContent("DASHBOARD", isActive)}
-                  </NavLink>
+                  {isActive && (
+                    <span className="w-1.5 h-1.5 bg-custom rounded-full mr-1.5 animate-pulse shadow-[0_0_8px_#3b82f6]" />
+                  )}
+                  <i className="fa-solid fa-house mr-1.5"></i>
+                  HOME
                 </>
               )}
+            </NavLink>
+            <NavLink to="/explore" className={({ isActive }) => getLinkClass(isActive)}>
+              {({ isActive }) => (
+                <>
+                  {isActive && (
+                    <span className="w-1.5 h-1.5 bg-custom rounded-full mr-1.5 animate-pulse shadow-[0_0_8px_#3b82f6]" />
+                  )}
+                  <i className="fa-solid fa-compass mr-1.5"></i>
+                  EXPLORE
+                </>
+              )}
+            </NavLink>
+            <NavLink to="/story-inspiration" className={({ isActive }) => getLinkClass(isActive)}>
+              {({ isActive }) => (
+                <>
+                  {isActive && (
+                    <span className="w-1.5 h-1.5 bg-custom rounded-full mr-1.5 animate-pulse shadow-[0_0_8px_#3b82f6]" />
+                  )}
+                  <i className="fa-solid fa-book-open mr-1.5"></i>
+                  INSPIRING STORIES
+                </>
+              )}
+            </NavLink>
+            <NavLink to="/analytics" className={({ isActive }) => getLinkClass(isActive)}>
+              {({ isActive }) => (
+                <>
+                  {isActive && (
+                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-custom animate-pulse shadow-[0_0_8px_#3b82f6]" />
+                  )}
+                  <i className="fa-solid fa-chart-column mr-1.5"></i>
+                  ANALYTICS
+                </>
+              )}
+            </NavLink>
+            <NavLink to="/collab" className={({ isActive }) => getLinkClass(isActive)}>
+              {({ isActive }) => (
+                <>
+                  {isActive && (
+                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-custom animate-pulse shadow-[0_0_8px_#3b82f6]" />
+                  )}
+                  <i className="fa-solid fa-pen-nib mr-1.5"></i>
+                  COLLAB
+                </>
+              )}
+            </NavLink>
+            <NavLink to="/contact-us" className={({ isActive }) => getLinkClass(isActive)}>
+              {({ isActive }) => (
+                <>
+                  {isActive && (
+                    <span className="w-1.5 h-1.5 bg-custom rounded-full mr-1.5 animate-pulse shadow-[0_0_8px_#3b82f6]" />
+                  )}
+                  <i className="fa-solid fa-envelope mr-1.5"></i>
+                  CONTACT US
+                </>
+              )}
+            </NavLink>
+            <NavLink to="/community" className={({ isActive }) => getLinkClass(isActive)}>
+              {({ isActive }) => (
+                <>
+                  {isActive && (
+                    <span className="w-1.5 h-1.5 bg-custom rounded-full mr-1.5 animate-pulse shadow-[0_0_8px_#3b82f6]" />
+                  )}
+                  <i className="fa-solid fa-users mr-1.5"></i>
+                  COMMUNITY
+                </>
+              )}
+            </NavLink>
+            {isLogin && (
+              <>
+                <NavLink to="/bookmarks" className={({ isActive }) => getLinkClass(isActive)}>
+                  {({ isActive }) => (
+                    <>
+                      {isActive && (
+                        <span className="w-1.5 h-1.5 bg-custom rounded-full mr-1.5 animate-pulse shadow-[0_0_8px_#3b82f6]" />
+                      )}
+                      <i className="fa-solid fa-bookmark mr-1.5"></i>
+                      SAVED STORIES
+                    </>
+                  )}
+                </NavLink>
+                <NavLink to="/dashboard" className={({ isActive }) => getLinkClass(isActive)}>
+                  {({ isActive }) => (
+                    <>
+                      {isActive && (
+                        <span className="w-1.5 h-1.5 bg-custom rounded-full mr-1.5 animate-pulse shadow-[0_0_8px_#3b82f6]" />
+                      )}
+                      <i className="fa-solid fa-table-columns mr-1.5"></i>
+                      DASHBOARD
+                    </>
+                  )}
+                </NavLink>
+              </>
+            )}
           </div>
           <div className="flex items-center gap-3">
             <div className="hidden lg:flex items-center gap-3">
