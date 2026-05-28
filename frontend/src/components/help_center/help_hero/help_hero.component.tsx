@@ -17,8 +17,9 @@ const HelpHero: FC<HelpHeroProps> = ({
   return (
     <section
       id="help-hero"
-      className="relative overflow-hidden border-b border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950"
-      className="relative overflow-hidden border-b border-slate-200 dark:border-white/10"
+
+
+      className="relative overflow-hidden border-b border-gray-200 dark:border-white/10 transition-colors duration-300"
       aria-labelledby="help-center-title"
     >
       {/* Background Effects */}
@@ -57,7 +58,9 @@ const HelpHero: FC<HelpHeroProps> = ({
         </motion.div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Link to="/" className="inline-block mb-8">
-          <div className="bg-white hover:bg-slate-50 text-slate-700 px-3 py-2 flex items-center gap-2 transition-all duration-300 rounded-lg border border-slate-200 shadow-sm dark:bg-gradient-to-r dark:from-white/20 dark:to-white/10 dark:hover:from-white/30 dark:hover:to-white/20 dark:text-gray-300 dark:border-white/10">
+
+          <div className="bg-gray-100 dark:bg-transparent dark:bg-gradient-to-r dark:from-white/20 dark:to-white/10 hover:bg-gray-200 dark:hover:from-white/30 dark:hover:to-white/20 text-gray-700 dark:text-gray-300 px-3 py-2 flex items-center gap-2 transition-all duration-300 rounded-lg border border-gray-300 dark:border-white/10 shadow-sm dark:shadow-none">
+
             <i className="fa-solid fa-left-long" aria-hidden="true"></i>
             BACK
           </div>
@@ -70,70 +73,24 @@ const HelpHero: FC<HelpHeroProps> = ({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
         >
-          {/* Badge */}
-          <motion.div
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-blue-400/20 bg-blue-500/10 backdrop-blur-md text-blue-200 mb-8 shadow-lg"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2 }}
-          >
-            <i
-              className="fa-solid fa-life-ring text-blue-300"
-              aria-hidden="true"
-            ></i>
-            <span className="text-sm font-semibold tracking-wide uppercase">
-              Support & Guidance
+
+
+          <div className="inline-flex items-center justify-center mx-auto px-4 py-1.5 mb-6 rounded-full border border-blue-200 dark:border-white/20 bg-blue-50 dark:bg-blue-500/20 text-blue-700 dark:text-white shadow-sm dark:shadow-none transition-colors duration-300">
+            <span className="text-sm font-semibold tracking-wide">SUPPORT & GUIDANCE</span>
+
+            <span className="ml-2 text-sm">
+              <i className="fa-solid fa-circle-question" aria-hidden="true"></i>
+
             </span>
           </motion.div>
 
           {/* Heading */}
           <motion.h1
             id="help-center-title"
-            className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight mb-6"
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-          >
-            <span className="bg-gradient-to-r from-white via-blue-300 to-indigo-400 bg-clip-text text-transparent">
-              Help Center
-            </span>
-          </motion.h1>
 
-          {/* Subtitle */}
-          <motion.p
-            className="text-lg sm:text-xl text-slate-400 leading-relaxed max-w-3xl mx-auto mb-10"
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.45 }}
-          >
-            Find answers, troubleshoot issues, and explore detailed guides to
-            get the most out of{" "}
-            <span className="text-blue-300 font-semibold">
-              StorySparkAI
-            </span>
-            .
-          </motion.p>
 
-          {/* Search */}
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.55 }}
-          >
-            <HelpSearchBar
-              value={searchQuery}
-              onChange={onSearchChange}
-              resultCount={searchQuery ? resultCount : undefined}
-            />
-          </motion.div>
-
-          {/* Stats */}
-          <motion.div
-            className="mt-14 grid grid-cols-1 sm:grid-cols-3 gap-4"
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.65 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-950 via-blue-700 to-indigo-700 mb-6 tracking-tight dark:from-gray-200 dark:via-blue-400 dark:to-indigo-400"
+            className="text-4xl sm:text-5xl lg:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-gray-800 via-blue-700 to-indigo-700 dark:from-gray-200 dark:via-blue-400 dark:to-indigo-400 mb-6 tracking-tight drop-shadow-sm dark:drop-shadow-none"
+            
           >
             <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-5 shadow-xl">
               <h3 className="text-3xl font-bold text-white mb-1">24/7</h3>
@@ -142,13 +99,11 @@ const HelpHero: FC<HelpHeroProps> = ({
               </p>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-5 shadow-xl">
-              <h3 className="text-3xl font-bold text-white mb-1">50+</h3>
-              <p className="text-sm text-slate-400">
-                Help Articles
-              </p>
-            </div>
-          <p className="text-lg text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed dark:text-gray-400">
+
+
+          <p className="text-lg text-gray-600 dark:text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed font-medium">
+
+
             Find answers, troubleshoot issues, and get started with StorySparkAI.
             Search our guides or browse topics below.
           </p>

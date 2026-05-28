@@ -1,9 +1,5 @@
 import baseApi from "../base_api/base.api";
-import type { Post } from "../../models/post";
-
-type RecommendationResponse = {
-  data: Post[];
-};
+import { Post } from "../../models/post";
 
 const recommendationApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -12,7 +8,7 @@ const recommendationApi = baseApi.injectEndpoints({
         url: "/recommendations/personalized",
         method: "GET",
       }),
-      transformResponse: (response: RecommendationResponse) => response.data,
+      transformResponse: (response: { data: Post[] }) => response.data,
       providesTags: ["Recommendation"],
     }),
   }),

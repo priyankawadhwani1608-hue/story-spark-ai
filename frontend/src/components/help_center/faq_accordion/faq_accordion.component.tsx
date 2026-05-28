@@ -11,7 +11,20 @@ interface FAQAccordionProps {
 }
 
 const FAQAccordion: FC<FAQAccordionProps> = ({ items }) => {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const baseId = useId();
+  const [openId, setOpenId] = useState<string | null>(items[0]?.id ?? null);
+
+  const toggleItem = useCallback((id: string) => {
+    setOpenId((current) => (current === id ? null : id));
+  }, []);
+
+  const handleKeyDown = (event: React.KeyboardEvent, id: string) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      toggleItem(id);
+    }
+  };
+
 
   const toggleAccordion = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -19,8 +32,10 @@ const FAQAccordion: FC<FAQAccordionProps> = ({ items }) => {
   if (items.length === 0) {
     return (
       <section id="faq" className="scroll-mt-24">
-        <div className="text-center py-12 bg-white rounded-xl border border-slate-200 dark:bg-blue-500/5 dark:border-white/5">
-          <p className="text-slate-600 dark:text-gray-400">No FAQ items match your search.</p>
+
+        <div className="text-center py-12 bg-gray-50 dark:bg-blue-500/5 rounded-xl border border-gray-200 dark:border-white/5">
+          <p className="text-gray-600 dark:text-gray-400">No FAQ items match your search.</p>
+
         </div>
       </section>
     );
@@ -92,10 +107,12 @@ const FAQAccordion: FC<FAQAccordionProps> = ({ items }) => {
               >
                 {/* Question Button */}
       <div className="text-center mb-10">
-        <h2 id="faq-heading" className="text-3xl font-bold text-slate-900 dark:text-gray-300">
+
+        <h2 id="faq-heading" className="text-3xl font-extrabold text-gray-900 dark:text-gray-300">
           Frequently Asked Questions
         </h2>
-        <p className="mt-3 text-slate-600 dark:text-gray-400 max-w-2xl mx-auto">
+        <p className="mt-3 text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-medium">
+
           Quick answers to the most common StorySparkAI questions.
         </p>
       </div>
@@ -110,7 +127,9 @@ const FAQAccordion: FC<FAQAccordionProps> = ({ items }) => {
             <article
               key={item.id}
               role="listitem"
-              className="bg-white border border-slate-200 rounded-xl overflow-hidden transition-colors hover:border-indigo-300 dark:bg-blue-500/10 dark:border-white/5 dark:hover:border-indigo-500/20"
+
+              className="bg-white dark:bg-blue-500/10 border border-gray-200 dark:border-white/5 rounded-xl overflow-hidden shadow-sm dark:shadow-none transition-colors hover:border-indigo-400 dark:hover:border-indigo-500/20"
+
             >
               <h3>
                 <button
@@ -123,59 +142,17 @@ const FAQAccordion: FC<FAQAccordionProps> = ({ items }) => {
                     cursor-pointer
                   "
                 >
-                  <div className="flex items-start gap-4">
-                    {/* Icon */}
-                    <div
-                      className={`
-                        mt-1 flex items-center justify-center
-                        w-11 h-11 rounded-xl
-                        transition-all duration-300
-                        ${
-                          isOpen
-                            ? "bg-indigo-500/20 text-indigo-400"
-                            : "bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-slate-400"
-                        }
-                      `}
-                    >
-                      <i className="fa-solid fa-question"></i>
-                    </div>
 
-                    {/* Question */}
-                    <div>
-                      <h3
-                        className={`
-                          text-lg font-semibold transition-colors duration-300
-                          ${
-                            isOpen
-                              ? "text-indigo-500 dark:text-indigo-400"
-                              : "text-slate-900 dark:text-white"
-                          }
-                        `}
-                      >
-                        {faq.question}
-                      </h3>
-                    </div>
-                  </div>
 
-                  {/* Arrow */}
-                  <motion.div
-                    animate={{ rotate: isOpen ? 180 : 0 }}
-                    transition={{ duration: 0.25 }}
-                    className={`
-                      flex items-center justify-center
-                      w-10 h-10 rounded-xl
-                      border transition-all duration-300
-                      ${
-                        isOpen
-                          ? "bg-indigo-500/20 border-indigo-500/20 text-indigo-400"
-                          : "bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400"
-                      }
-                    `}
-                  <span className="text-slate-900 font-medium pr-4 dark:text-gray-300">
+                  <span className="text-gray-900 dark:text-gray-300 font-bold pr-4">
+
+                     
+                     
                     {item.question}
                   </span>
                   <span
-                    className={`flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 transition-transform duration-300 dark:bg-indigo-500/20 dark:text-indigo-400 ${
+                    className={`flex-shrink-0 w-8 h-8 rounded-full bg-indigo-50 dark:bg-indigo-500/20 flex items-center justify-center text-indigo-600 dark:text-indigo-400 transition-transform duration-300 ${
+
                       isOpen ? "rotate-180" : ""
                     }`}
                     aria-hidden="true"
@@ -232,7 +209,9 @@ const FAQAccordion: FC<FAQAccordionProps> = ({ items }) => {
                   isOpen ? "pb-5 max-h-96 opacity-100" : "max-h-0 opacity-0"
                 }`}
               >
-                <p className="text-slate-600 leading-relaxed border-t border-slate-200 pt-4 dark:text-gray-400 dark:border-white/5">
+
+                <p className="text-gray-700 dark:text-gray-400 leading-relaxed border-t border-gray-100 dark:border-white/5 pt-4">
+
                   {item.answer}
                 </p>
               </div>

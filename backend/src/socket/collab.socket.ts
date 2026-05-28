@@ -3,7 +3,7 @@ import logger from "../utils/logger.util";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import config from "../config";
 import { JwtHalers } from "../utils/jwt.helper";
-import { Secret } from "jsonwebtoken";
+import type { Secret } from "jsonwebtoken";
 
 const genAI = new GoogleGenerativeAI(config.gemini_api_key as string);
 
@@ -121,7 +121,10 @@ export const setupCollabSocket = (io: Server) => {
       if (!room) return;
 
       const participant = room.participants.find(p => p.userId === userId);
-      if (!participant) return;
+      if (!participant) {
+        socket.emit("collab:error", { message: "You are not a participant of this room" });
+        return;
+      }
 
       const chunk: IStoryChunk = {
         authorId: userId,
@@ -138,8 +141,16 @@ export const setupCollabSocket = (io: Server) => {
 
     // AI continues the story
     socket.on("collab:ai_continue", async ({ roomId }) => {
+      const userId = socket.data.userId;
       const room = rooms.get(roomId);
       if (!room) return;
+
+      // Only participants can trigger AI continuation
+      const participant = room.participants.find(p => p.userId === userId);
+      if (!participant) {
+        socket.emit("collab:error", { message: "You are not a participant of this room" });
+        return;
+      }
 
       collabNamespace.to(roomId).emit("collab:ai_thinking", { roomId });
 
@@ -176,19 +187,30 @@ export const setupCollabSocket = (io: Server) => {
     socket.on("collab:typing", ({ roomId }) => {
       const userId = socket.data.userId;
       const username = socket.data.username;
+      const room = rooms.get(roomId);
+      if (!room) return;
+      if (!room.participants.some(p => p.userId === userId)) return;
       socket.to(roomId).emit("collab:user_typing", { userId, username });
     });
 
     socket.on("collab:stop_typing", ({ roomId }) => {
       const userId = socket.data.userId;
+      const room = rooms.get(roomId);
+      if (!room) return;
+      if (!room.participants.some(p => p.userId === userId)) return;
       socket.to(roomId).emit("collab:user_stop_typing", { userId });
     });
 
     // Get room info
     socket.on("collab:get_room", ({ roomId }) => {
+      const userId = socket.data.userId;
       const room = rooms.get(roomId);
       if (!room) {
         socket.emit("collab:error", { message: "Room not found" });
+        return;
+      }
+      if (!room.participants.some(p => p.userId === userId)) {
+        socket.emit("collab:error", { message: "You are not a participant of this room" });
         return;
       }
       socket.emit("collab:room_info", { room });
