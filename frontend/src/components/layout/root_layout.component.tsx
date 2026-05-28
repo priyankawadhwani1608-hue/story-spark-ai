@@ -2,8 +2,11 @@ import { ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 import NavListComponent from "../hero/nav_list.component";
 import FooterComponent from "../footer/footer.component";
-import ScrollFAB from "../ScrollFAB";
-import FloatingNavComponent from "./floating_nav.component";
+
+
+
+
+
 
 interface RootLayoutProps {
   children: ReactNode;
@@ -20,8 +23,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
       {!hideHeader && <NavListComponent />}
       <div className="flex-grow min-h-0">{children}</div>
       {!hideFooter && <FooterComponent />}
-      <ScrollFAB />
-      <FloatingNavComponent />
+
     </div>
   );
 };
