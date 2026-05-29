@@ -46,7 +46,6 @@ const FooterComponent = () => {
     { label: "About Us", to: "/about-us" },
     { label: "Careers",  to: "/career"   },
     { label: "Contact",  to: "/contact-us"},
-    { label: "Terms", to: "/terms" },
   ];
 
   const githubIssuesUrl =
@@ -56,7 +55,6 @@ const FooterComponent = () => {
     { label: "Blog",         to: "/blog"        },
     { label: "Help Center",  to: "/help"        },
     { label: "Community",    to: "/community"   },
-    { label: "Guidelines",   to: "/guidelines"  },
     { label: "Contributors", to: "/contributors"},
     { label: "Report Bug",   to: githubIssuesUrl },
   ];
