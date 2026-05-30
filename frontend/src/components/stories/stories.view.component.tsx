@@ -850,7 +850,8 @@ const StoriesViewComponent: React.FC<StoriesComponentProps> = ({
                 <StoryCoverImage
                   title={selectedStory.title}
                   tag={selectedStory.tag}
-                  className="transition-transform duration-500 group-hover:scale-105"
+                  className="transition-transform duration-500"
+                  
                   style={{ width: "100%", height: "100%", borderRadius: "0.75rem" }}
                 />
               </div>

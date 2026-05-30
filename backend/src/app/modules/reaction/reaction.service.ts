@@ -12,25 +12,32 @@ const toggleReaction = async (
   token: ITokenPayload
 ) => {
   const { email } = token;
+
   const user = await User.findOne({ email });
   
   if (!user) {
     throw new ApiError(httpStatus.BAD_REQUEST, "User not found!");
   }
+
   
   const post = await Post.findOne({ _id: postId, isDeleted: { $ne: true } });
   
+
   if (!post) {
     throw new ApiError(httpStatus.BAD_REQUEST, "Post not found!");
   }
 
+
   const newReaction = await Reaction.create({
     postId: new Types.ObjectId(postId),
+
     userId: user._id,
     type: type,
   });
 
+
   return newReaction;
+
 };
 
 export const ReactionService = {
