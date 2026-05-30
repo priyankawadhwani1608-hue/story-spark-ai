@@ -113,6 +113,15 @@ const LoginComponent = () => {
   return (
     <div className="min-h-screen bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 flex items-center justify-center relative overflow-hidden px-4">
 
+      {/* Back to Home Button */}
+      <button
+        onClick={() => window.location.href = "/"}
+        className="absolute top-4 left-4 sm:top-6 sm:left-6 inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 bg-slate-50/80 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-700/80 border border-slate-200 dark:border-slate-700/50 rounded-full shadow-lg backdrop-blur-md hover:shadow-xl transition-all duration-200 group z-20 cursor-pointer"
+      >
+        <span className="transform group-hover:-translate-x-1 transition-transform duration-200">←</span>
+        Back to Home
+      </button>
+
       {/* Background Glow */}
       <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-600/20 rounded-full blur-[120px] pointer-events-none" />
 
@@ -190,7 +199,6 @@ const LoginComponent = () => {
             >
             ← Back to Home
             </button>
-
           <h3 className="mb-6 text-center text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-200">
             Welcome Back
           </h3>

@@ -1,7 +1,10 @@
-import { useNavigate } from "react-router-dom";
-import { Post } from "../../../models/post";
 import { useGetLatestListsQuery } from "../../../redux/apis/post.api";
+import { Post } from "../../../models/post";
 import LoadingAnimation from "../../loading/loading.component";
+import SSProfile from "../../ui-component/ss-profile/ss-profile";
+import { formatDateShort } from "../../../utils/time-formate";
+import { useNavigate } from "react-router-dom";
+import BookmarkButton from "../../BookmarkButton";
 
 const LatestPostsComponent = () => {
   const { data, isLoading, isError, refetch } = useGetLatestListsQuery(undefined);
@@ -30,16 +33,18 @@ const LatestPostsComponent = () => {
       <div className="space-y-5">
         {(data?.posts ?? []).length > 0 ? (
           (data?.posts ?? []).map((post: Post) => (
-            <button key={post._id} onClick={() => navigate(`/post/${post._id}`)} className="motion-card-subtle story-panel w-full rounded-lg p-5 text-left">
+            <button key={post._id} onClick={() => navigate(`/post/${post._id}`)} className="motion-card-subtle story-panel rounded-lg p-5 text-left">
               <h3 className="mb-2 text-xl font-bold text-slate-100">{post.title}</h3>
               <p className="line-clamp-2 text-slate-400">{post.content || ""}</p>
             </button>
           ))
         ) : (
-          <div className="story-panel rounded-lg px-4 py-5 text-slate-300">Posts are not available.</div>
+          <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/20 px-4 py-5 text-slate-500 dark:text-slate-400">
+            Posts are not available.
+          </div>
         )}
       </div>
-    </section>
+    </div>
   );
 };
 

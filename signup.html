@@ -206,6 +206,19 @@
                     <p class="ds-help" id="password-strength"></p>
                     <p class="ds-error" id="password-error" role="alert" aria-live="polite"></p>
                 </div>
+                <div class="ds-field">
+                    <label class="block text-label-caps text-on-surface-variant mb-2" for="confirm-password-field">CONFIRM PASSWORD</label>
+                    <div class="ds-input-group has-action">
+                        <i class="fi fi-rr-lock ds-input-icon text-[16px] absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant/80"></i>
+                        <input class="w-full ds-input with-icon pl-11 pr-11" id="confirm-password-field" name="confirmPassword" autocomplete="new-password" placeholder="Re-enter your password" type="password" required aria-describedby="confirm-password-help confirm-password-error confirm-password-feedback" aria-invalid="false"/>
+                        <button class="ds-input-action flex items-center justify-center" onclick="toggleConfirmPasswordVisibility()" type="button" aria-label="Toggle confirm password visibility">
+                            <i class="fi fi-rr-eye-crossed text-[16px]" id="confirm-eye-icon"></i>
+                        </button>
+                    </div>
+                    <p class="ds-help" id="confirm-password-help">Passwords must match to create your account.</p>
+                    <p class="ds-feedback password-match-feedback" id="confirm-password-feedback" role="status" aria-live="polite"></p>
+                    <p class="ds-error" id="confirm-password-error" role="alert" aria-live="polite"></p>
+                </div>
                 <div class="flex items-center gap-2">
                     <input class="w-4 h-4 rounded border-white/10 bg-surface-container-high text-primary focus:ring-primary ring-offset-surface" id="remember" type="checkbox"/>
                     <label class="text-[13px] text-on-surface-variant" for="remember">Remember me for 30 days</label>

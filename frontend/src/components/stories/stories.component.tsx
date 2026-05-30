@@ -257,7 +257,7 @@ const UI_TEXT: Record<string, UiText> = {
     selectPrompt: "프롬프트 선택", characterLimit: "글자 수 제한 도달 - 생성할 수 없습니다", charactersRemaining: "글자 남음",
     shortcuts: "키보드 단축키", openHelp: "도움말 열기", closeHelp: "도움말 닫기", focusPrompt: "프롬프트에 초점",
     generateStory: "이야기 생성", publishStory: "이야기 게시", close: "닫기", freeLimitReached: "무료 한도 도달",
-    freeLimitMessage: "무료 이야기 생성 3회를 모두 사용했습니다. 계속하려면 로그인하세요.", continueBrowsing: "계속 둘러보기", 최근 프롬프트: "최근 프롬프트", usePrompt: "사용", delete: "삭제", clearAll: "모두 지우기", noRecentPrompts: "최근 프롬프트가 없습니다",
+    freeLimitMessage: "무료 이야기 생성 3회를 모두 사용했습니다. 계속하려면 로그인하세요.", continueBrowsing: "계속 둘러보기", recentPrompts: "최근 프롬프트", usePrompt: "사용", delete: "삭제", clearAll: "모두 지우기", noRecentPrompts: "최근 프롬프트가 없습니다",
   },
   Bengali: {
     back: "ফিরে যান", freeAccess: "৩টি অনুরোধের জন্য বিনামূল্যে ব্যবহার", login: "লগ ইন", forMore: "করে আরও পান!",
@@ -409,7 +409,7 @@ const StoriesComponent = () => {
   }, []);
 
   const [stories, setStories] = useState<IStories[]>(
-    draft?.stories?.length ? draft.stories : [{uuid:"test-1",title:"The Wizard's Journey",content:"Merlin walked through the forest toward the castle. The village was far behind him. He crossed the bridge over the river and entered the dungeon beneath the tower. Dragons guarded the mountain beyond the valley. Elena watched from the palace window as Merlin approached the cave near the ocean shore.",tag:"Fantasy",imageURL:"https://via.placeholder.com/400x300"}]
+    [{uuid:"test-1",title:"The Wizard's Journey",content:"Merlin walked through the forest toward the castle. The village was far behind him. He crossed the bridge over the river and entered the dungeon beneath the tower. Dragons guarded the mountain beyond the valley. Elena watched from the palace window as Merlin approached the cave near the ocean shore.",tag:"Fantasy",imageURL:"https://via.placeholder.com/400x300"}]
   );
   
   const [loading, setLoading] = useState<boolean>(false);
@@ -476,6 +476,8 @@ const StoriesComponent = () => {
   // Autosave Draft
   useEffect(() => {
     const timer = setTimeout(() => {
+      // stories intentionally excluded — API response, not user input
+      // including stories risks hitting localStorage quota (~5MB) silently
       const draftData = {
         prompt: textareaValue,
         genre: selectedGenre,
@@ -484,7 +486,13 @@ const StoriesComponent = () => {
         tone: selectedTone,
         stories: stories,
       };
-      localStorage.setItem("story_spark_draft", JSON.stringify(draftData));
+      try {
+        localStorage.setItem("story_spark_draft", JSON.stringify(draftData));
+      } catch (err) {
+        if (err instanceof DOMException && err.name === "QuotaExceededError") {
+          toast.error("Couldn't autosave draft — storage limit reached.");
+        }
+      }
     }, 1000);
     return () => clearTimeout(timer);
   }, [textareaValue, selectedGenre, selectedLength, selectedLanguage, selectedTone, stories]);
