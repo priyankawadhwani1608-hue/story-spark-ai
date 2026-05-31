@@ -141,7 +141,7 @@ const LoginComponent = () => {
               validation={{ required: "Password is required" }}
               error={errors.password}
             />
-            <div className="flex justify-end -mt-2">
+            <div className="flex justify-end mt-2 mb-4">
               <a
                 href="/forgot-password"
                 className="text-xs font-semibold text-blue-400 hover:text-blue-300 transition-colors duration-200"
