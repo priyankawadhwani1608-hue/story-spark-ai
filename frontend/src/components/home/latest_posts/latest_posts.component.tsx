@@ -1,15 +1,14 @@
 import { useGetLatestListsQuery } from "../../../redux/apis/post.api";
 import { Post } from "../../../models/post";
 import LoadingAnimation from "../../loading/loading.component";
-import SSProfile from "../../ui-component/ss-profile/ss-profile";
-import { formatDateShort } from "../../../utils/time-formate";
 import { useNavigate } from "react-router-dom";
-import BookmarkButton from "../../BookmarkButton";
 
 const LatestPostsComponent = () => {
   const { data, isLoading, isError, refetch } = useGetLatestListsQuery(undefined);
   const navigate = useNavigate();
+
   if (isLoading) return <LoadingAnimation />;
+
   if (isError) {
     return (
       <section className="mb-12 text-slate-100">
@@ -27,13 +26,26 @@ const LatestPostsComponent = () => {
     );
   }
 
+  // --- STRICT DEDUPLICATION FILTERING ---
+  // Tracks unique IDs dynamically to eliminate arrays cloned by bad mock states or faulty merges.
+  const seenIds = new Set<string>();
+  const uniquePosts = (data?.posts ?? []).filter((post: Post) => {
+    if (!post?._id || seenIds.has(post._id)) return false;
+    seenIds.add(post._id);
+    return true;
+  });
+
   return (
     <section className="text-slate-100">
       <h2 className="mb-6 text-2xl font-bold">Latest Posts</h2>
       <div className="space-y-5">
-        {(data?.posts ?? []).length > 0 ? (
-          (data?.posts ?? []).map((post: Post) => (
-            <button key={post._id} onClick={() => navigate(`/post/${post._id}`)} className="motion-card-subtle story-panel rounded-lg p-5 text-left">
+        {uniquePosts.length > 0 ? (
+          uniquePosts.map((post: Post) => (
+            <button
+              key={post._id}
+              onClick={() => navigate(`/post/${post._id}`)}
+              className="motion-card-subtle story-panel rounded-lg p-5 text-left w-full block transition-all"
+            >
               <h3 className="mb-2 text-xl font-bold text-slate-100">{post.title}</h3>
               <p className="line-clamp-2 text-slate-400">{post.content || ""}</p>
             </button>
@@ -44,7 +56,7 @@ const LatestPostsComponent = () => {
           </div>
         )}
       </div>
-    </div>
+    </section>
   );
 };
 
