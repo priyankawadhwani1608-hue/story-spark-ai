@@ -1,11 +1,7 @@
 import { FC } from "react";
 import { motion } from "framer-motion";
-
-interface TroubleshootItem {
-  title: string;
-  symptoms: string;
-  solution: string;
-}
+import { TroubleshootItem } from "../help_center.utils";
+import TroubleshootCard from "../troubleshoot_card/troubleshoot_card.component";
 
 interface TroubleshootProps {
   items: TroubleshootItem[];
@@ -13,9 +9,13 @@ interface TroubleshootProps {
 
 const Troubleshoot: FC<TroubleshootProps> = ({ items }) => {
   return (
-    <section
+    <motion.section
       id="troubleshoot-section"
       className="scroll-mt-28 transition-colors duration-300"
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.5 }}
     >
       <div className="mb-10 text-center">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-orange-500/20 bg-orange-500/10 text-orange-400 mb-4">
@@ -30,19 +30,7 @@ const Troubleshoot: FC<TroubleshootProps> = ({ items }) => {
         <p className="text-slate-600 dark:text-slate-400 max-w-2xl leading-relaxed">
           Diagnose and resolve common StorySparkAI issues quickly with guided
           troubleshooting steps and recommended fixes.
-      <div className="text-center mb-10">
-        
-        <h2
-          id="troubleshooting-heading"
-          className="text-3xl font-bold text-slate-800 dark:text-gray-300"
-        >
-          Fix Common Problems
-        </h2>
-
-        <p className="mt-3 text-slate-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Diagnose and fix common setup and runtime issues.
         </p>
-
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

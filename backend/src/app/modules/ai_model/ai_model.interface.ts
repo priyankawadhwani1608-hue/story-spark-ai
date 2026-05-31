@@ -4,6 +4,7 @@ export interface IAIModel {
   numStories: number;
   language?: string;
   tone?: string;
+  genre?: string;
 }
 
 export interface IStory {

@@ -86,7 +86,7 @@ const SetupGuide: FC<SetupGuideProps> = ({ steps }) => {
         </ol>
       </div>
 
-      <div className="mt-8 p-6 bg-gradient-to-r from-indigo-50 to-indigo-100 dark:from-blue-950/50 dark:to-indigo-900/30 border border-indigo-200 dark:border-indigo-500/20 rounded-xl shadow-sm">
+      <motion.div className="mt-8 p-6 bg-gradient-to-r from-indigo-50 to-indigo-100 dark:from-blue-950/50 dark:to-indigo-900/30 border border-indigo-200 dark:border-indigo-500/20 rounded-xl shadow-sm">
         
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
           

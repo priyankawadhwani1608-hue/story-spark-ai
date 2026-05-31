@@ -18,7 +18,8 @@ const transporter = nodemailer.createTransport({
 const VerifyEmail = async (payload: IEmailBody) => {
   try {
     const { email, name } = payload;
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    // Use a cryptographically secure RNG so OTPs cannot be predicted.
+    const otp = crypto.randomInt(100000, 1000000).toString();
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes from now
     
     // Delete any existing OTP for this email

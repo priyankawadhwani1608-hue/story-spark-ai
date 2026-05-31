@@ -1,4 +1,10 @@
 import React from "react";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Outlet,
+  Navigate,
+} from "react-router-dom";
 import StoryInspirationWrapper from "./components/StoryInspirationWrapper";
 import WritingAssistantComponent from "./components/writing-assistant/writing_assistant.component";
 import CollabHome from "./components/collab/CollabHome";
@@ -35,6 +41,7 @@ import PrivacyPolicy from "./components/footer/Privacy.tsx";
 import CookiePolicy from "./components/footer/cookie-policy.tsx";
 import Terms from "./components/footer/terms.tsx";
 import GuidelinesComponent from "./components/footer/guidelines.tsx";
+import ScrollToTop from "./components/ScrollToTop";
 
 import TemplatesComponent from "./components/templates/templates.component";
 import CommunityComponent from "./components/community/community.component";
@@ -46,8 +53,7 @@ import BranchingStory from "./components/stories/BranchingStory";
 import ReportBug from "./components/report-bug/ReportBug";
 import AnalyticsPage from "./components/dashboard/analytics/analytics.page";
 import StoryWorkspace from "./components/story/StoryWorkspace";
-// <<<<<<< HEAD
-// =======
+import Scrolltotopandscrolltobottom from "./components/Scrolltotopandscrolltobottom.tsx"
 
 type ProtectedRouteProps = {
   allowedRoles: string[];
@@ -123,7 +129,7 @@ const router = createBrowserRouter([
       { path: "*", element: <NotFoundComponent /> },
     ],
   },
-  
+
   // Isolated layout branches (Bypassing public navigation headers entirely)
   { path: "/auth/email-validation", element: <EmailValidationComponent /> },
   { path: "/payment", element: <PaymentComponent /> },
@@ -134,10 +140,10 @@ const router = createBrowserRouter([
   // Administrative Dashboard Infrastructure Tree
   {
     path: "/dashboard",
-    element: <ProtectedRoute allowedRoles={ALL_ROLES} />, 
+    element: <ProtectedRoute allowedRoles={ALL_ROLES} />,
     children: [
       {
-        element: <DashboardLayout />, 
+        element: <DashboardLayout />,
         children: [
           { index: true, element: <DashboardComponent /> },
           { path: "profile", element: <ProfileComponent /> },

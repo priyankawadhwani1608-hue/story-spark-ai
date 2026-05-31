@@ -4,10 +4,11 @@ import validateRequest from "../../middleware/validate.request";
 import { UserValidator } from "../user/user.validation";
 import auth from "../../middleware/auth.middleware";
 import { ENUM_USER_ROLE } from "../../../enums/user";
-import ipRateLimiter, {
+import {
   loginRateLimiter,
   forgotPasswordRateLimiter,
   resetPasswordRateLimiter,
+  ipRateLimiter,
 } from "../../middleware/ip.rate-limiter";
 
 const router = express.Router();
