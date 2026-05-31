@@ -18,6 +18,7 @@ interface SSInputProps<T extends FieldValues> {
   validation?: RegisterOptions<T>;
   error?: FieldError;
   autoComplete?: string;
+  autoFocus?: boolean;
 }
 
 const SSInput = <T extends FieldValues>({
@@ -30,15 +31,18 @@ const SSInput = <T extends FieldValues>({
   validation,
   error,
   autoComplete,
+  autoFocus
 }: SSInputProps<T>) => {
   const [showPassword, setShowPassword] = useState(false);
 
-const inputType =
-  type === "password"
-    ? showPassword
-      ? "text"
-      : "password"
-    : type;
+
+
+  const inputType =
+
+    type === "password" ? (showPassword ? "text" : "password") : type;
+
+
+
   return (
     <div className="w-full min-w-0">
       <label htmlFor={name} className="block text-sm font-medium text-gray-600 dark:text-gray-400">
@@ -50,6 +54,20 @@ const inputType =
             <i className={icon}></i>
           </span>
         )}
+
+       <input
+  type={inputType}
+  id={name}
+  className={`w-full box-border pl-8 pr-10 py-1.5 text-base text-gray-900 dark:text-gray-200 bg-white dark:bg-slate-800 border-0 sm:text-sm ${
+    error
+      ? "outline-red-500"
+      : "outline-gray-800 focus:outline-indigo-600"
+  }`}
+  placeholder={placeholder}
+  autoComplete={autoComplete}
+  {...register(name, validation)}
+/>
+
         <input
   type={inputType}
   id={name}
