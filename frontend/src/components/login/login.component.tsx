@@ -166,6 +166,7 @@ const LoginComponent = () => {
               register={register}
               validation={{ required: "Password is required" }}
               error={errors.password}
+              autoComplete="password"
             />
 
             <div className="flex justify-end -mt-2">
