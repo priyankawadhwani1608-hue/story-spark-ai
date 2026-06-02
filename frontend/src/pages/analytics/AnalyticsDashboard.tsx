@@ -68,7 +68,7 @@ const AnalyticsDashboard: React.FC = () => {
 
   // Fallback metric calculations (mock variables matching your backend schema totals)
   // In a complete implementation, these numbers would come from your analytics.api query
-  const wordsToday = user?.postsCount ? user.postsCount * 300 : 350; // Dynamic simulation lookup 
+  const wordsToday = user?.postsCount ? user.postsCount * 300 : 350; // Dynamic simulation lookup
   const wordsThisWeek = user?.postsCount ? user.postsCount * 1200 : 1800;
 
   const dailyGoal = user?.writingGoals?.dailyWordCount || 500;
@@ -197,7 +197,6 @@ const AnalyticsDashboard: React.FC = () => {
 
       {/* Primary Metrics Visualization Grid Dashboard Blocks */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        
         {/* Daily Goal Tracking Widget */}
         <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between relative overflow-hidden group">
           <div className="space-y-2">
@@ -239,7 +238,6 @@ const AnalyticsDashboard: React.FC = () => {
           </div>
           <ProgressRing percentage={weeklyPercentage} colorClass="text-emerald-500" />
         </div>
-
       </div>
     </div>
   );
