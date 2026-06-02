@@ -199,11 +199,13 @@ const createDocxBlob = ({
 };
 
 const StoryRemixModal = StoryRemix as React.ComponentType<{
-  story?: string;
+  story?: IStories;
   title?: string;
   selectedStory?: IStories;
   onClose?: () => void;
   onApplyRemix?: (content: string) => void;
+  isLogin?: boolean;
+  onRemixComplete?: (content: string) => void;
 }>;
 
 const StoryWorldMapModal = StoryWorldMap as React.ComponentType<{

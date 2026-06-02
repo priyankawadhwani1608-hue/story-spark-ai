@@ -147,11 +147,12 @@ const HelpSidebar: FC = () => {
                     Support Links
                   </button>
                 </div>
-              </motion.div>
-            </div>
-          </motion.div>
-        </div>
-      </nav>
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
+      </div>
+    </nav>
 
 
       {/* Mobile sticky nav */}
