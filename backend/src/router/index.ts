@@ -120,8 +120,8 @@ const modules = [
     router: WriterApplicationRoutes,
   },
   {
-    path: "/story-visualizer",
-    router: StoryVisualizerRouter,
+    path: "/story-version",
+    router: StoryVersionRouter,
   },
 ];
 
