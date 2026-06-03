@@ -42,6 +42,10 @@ const corsOrigins =
 app.use(
   cors({
     origin: (origin, callback) => {
+      if (!origin && process.env.NODE_ENV === 'production') {
+        return callback(new Error('Origin header required in production'));
+      }
+
       if (!origin || corsOrigins.includes(origin)) {
         callback(null, true);
       } else {
@@ -55,8 +59,6 @@ app.use(
 );
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })); // Keeps your extended payload parsing enabled
-app.use(cookieParser() as any);
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser() as unknown as RequestHandler);
 
