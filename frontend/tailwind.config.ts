@@ -3,6 +3,12 @@ import forms from "@tailwindcss/forms";
 import containerQueries from "@tailwindcss/container-queries";
 
 const config: Config = {
+
+import forms from "@tailwindcss/forms";
+import containerQueries from "@tailwindcss/container-queries";
+
+/** @type {import('tailwindcss').Config} */
+export default {
   content: [
     "./index.html",
     "./login.html",
@@ -123,3 +129,9 @@ const config: Config = {
 };
 
 export default config;
+   plugins: [
+    forms,
+    containerQueries,
+  ],
+ 
+}
