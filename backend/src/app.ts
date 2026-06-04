@@ -27,12 +27,10 @@ const limiter = rateLimit({
 });
 app.use(limiter as unknown as RequestHandler);
 
-const defaultCorsOrigins = [
-  "http://localhost:4001",
-  "http://localhost:4002",
-  "https://storysparkai-five.vercel.app",
-  "https://storysparkai.vercel.app",
-];
+const defaultCorsOrigins =
+  process.env.NODE_ENV === "development"
+  ? ["http://localhost:4001", "http://localhost:4002"]
+  : [];
 
 const corsOrigins =
   config.cors_origins && config.cors_origins.length > 0
