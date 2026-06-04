@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import StoriesViewComponent, { IStories } from "./stories.view.component";
 import RecentPromptsPanel from "./RecentPromptsPanel";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -362,7 +362,7 @@ interface TonePickerProps {
   onChange: (tone: ToneLabel | "") => void;
 }
 
-const TonePicker: React.FC<TonePickerProps> = ({ selected, onChange }) => {
+const TonePicker: React.FC<TonePickerProps> = React.memo(({ selected, onChange }) => {
   return (
     <div className="flex flex-wrap gap-2 mb-3">
       <span className="w-full text-xs text-gray-400 mb-1">ðŸŽ­ Tone:</span>
@@ -389,7 +389,7 @@ const TonePicker: React.FC<TonePickerProps> = ({ selected, onChange }) => {
       })}
     </div>
   );
-};
+});
 
 const getStoryDedupKey = (story: IStories) => {
   const storyData = story as Partial<IStories> & {
@@ -479,16 +479,15 @@ const storiesPerPage = 10;
   }, [uniqueStories, searchQuery, searchFilter]);
   }, [stories, debouncedSearchQuery, searchFilter]);
   const indexOfLastStory = currentPage * storiesPerPage;
-const indexOfFirstStory = indexOfLastStory - storiesPerPage;
+  const indexOfFirstStory = indexOfLastStory - storiesPerPage;
 
-const currentStories = filteredStories.slice(
-  indexOfFirstStory,
-  indexOfLastStory
-);
+  const currentStories = useMemo(() => {
+    return filteredStories.slice(indexOfFirstStory, indexOfLastStory);
+  }, [filteredStories, indexOfFirstStory, indexOfLastStory]);
 
-const totalPages = Math.ceil(
-  filteredStories.length / storiesPerPage
-);
+  const totalPages = useMemo(() => {
+    return Math.ceil(filteredStories.length / storiesPerPage);
+  }, [filteredStories.length, storiesPerPage]);
 useEffect(() => {
   setCurrentPage(1);
 }, [debouncedSearchQuery, searchFilter]);
@@ -524,7 +523,7 @@ useEffect(() => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   
-  const playSoundtrack = (genre: string) => {
+  const playSoundtrack = useCallback((genre: string) => {
     const soundtrack = soundtrackMap[genre];
 
     if (!soundtrack) return;
@@ -543,7 +542,7 @@ useEffect(() => {
     });
 
     audioRef.current = audio;
-  };
+  }, []);
 
   const activeGenerationRef = useRef<{ abort: () => void } | null>(null);
   const isGenerationInProgressRef = useRef(false);
@@ -697,7 +696,34 @@ useEffect(() => {
     };
   }, []);
 
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+  const handleCancelGeneration = useCallback((isTimeout = false) => {
+    activeGenerationRef.current?.abort();
+    activeGenerationRef.current = null;
+    isGenerationInProgressRef.current = false;
+    setLoading(false);
+    if (!isTimeout) {
+      toast("Story generation cancelled.");
+    }
+  }, []);
+
+  const handleClearPrompt = useCallback(() => {
+    setTextareaValue("");
+    setSelectedPrompt("");
+    setValue("prompt", "");
+
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [setValue]);
+
+  const handlePublishSuccess = useCallback(() => {
+    setTextareaValue("");
+    setSelectedPrompt("");
+    setValue("prompt", "");
+    reset();
+  }, [setValue, reset]);
+
+  const onSubmit: SubmitHandler<Inputs> = useCallback(async (data) => {
     if (isGenerationInProgressRef.current) {
       return;
     }
@@ -785,6 +811,7 @@ useEffect(() => {
       isGenerationInProgressRef.current = false;
       setLoading(false);
     }
+<<<<<<< HEAD
   };
 
   const handleCancelGeneration = (isTimeout = false) => {
@@ -818,32 +845,77 @@ useEffect(() => {
   setDraftStatus("");
     reset();
   };
+=======
+  }, [
+    login,
+    guestRequestCount,
+    selectedGenre,
+    selectedLength,
+    selectedLanguage,
+    selectedTone,
+    generateModel,
+    generateFreeModel,
+    addPrompt,
+    setValue,
+    playSoundtrack,
+    handleCancelGeneration,
+  ]);
+>>>>>>> f0c1ffef (No Lag)
 
   const isOverLimit = textareaValue.length >= MAX_PROMPT_LENGTH;
   const isNearLimit = textareaValue.length >= MAX_PROMPT_LENGTH * WARN_THRESHOLD;
   const isGenerateDisabled = loading || isOverLimit || !textareaValue.trim();
 
+  const handleOpenHelp = useCallback(() => setShowHelpModal(true), []);
+  const handleCloseHelp = useCallback(() => setShowHelpModal(false), []);
+  const handleGenerateShortcut = useCallback(() => {
+    if (isGenerateDisabled) {
+      return;
+    }
+    if (inputRef.current) {
+      const form = inputRef.current.closest("form");
+      if (form) form.requestSubmit();
+    }
+  }, [isGenerateDisabled]);
+  const handlePublishShortcut = useCallback(() => {
+    const publishBtn = document.getElementById("publish-story-btn");
+    publishBtn?.click();
+  }, []);
+  const handleFocusPrompt = useCallback(() => {
+    inputRef.current?.focus();
+  }, []);
+
   useKeyboardShortcuts({
-    onOpenHelp: () => setShowHelpModal(true),
-    onCloseHelp: () => setShowHelpModal(false),
-    onGenerate: () => {
-      if (isGenerateDisabled) {
-        return;
-      }
-      if (inputRef.current) {
-        const form = inputRef.current.closest("form");
-        if (form) form.requestSubmit();
-      }
-    },
-    onPublish: () => {
-      const publishBtn = document.getElementById("publish-story-btn");
-      publishBtn?.click();
-    },
-    focusPrompt: () => {
-      inputRef.current?.focus();
-    },
+    onOpenHelp: handleOpenHelp,
+    onCloseHelp: handleCloseHelp,
+    onGenerate: handleGenerateShortcut,
+    onPublish: handlePublishShortcut,
+    focusPrompt: handleFocusPrompt,
     hasStory: stories.length > 0,
   });
+
+  const handleSelectRecentPrompt = useCallback((prompt: string) => {
+    setTextareaValue(prompt);
+    setValue("prompt", prompt);
+    setIsRecentPromptsOpen(false);
+  }, [setValue]);
+
+  const handleToggleRecentPrompts = useCallback(() => {
+    setIsRecentPromptsOpen((prev) => !prev);
+  }, []);
+
+  const handleToggleDropdown = useCallback(() => {
+    setIsDropdownOpen((prev) => !prev);
+  }, []);
+
+  const recentPromptsText = useMemo(() => ({
+    recentPrompts: text.recentPrompts,
+    usePrompt: text.usePrompt,
+    delete: text.delete,
+    clearAll: text.clearAll,
+    noRecentPrompts: text.noRecentPrompts,
+    close: text.close,
+  }), [text]);
 
   return (
     <div className="min-h-screen bg-white text-slate-900 animate-gradient-slow transition-colors duration-300 dark:bg-[#0b1329] dark:text-white">
@@ -1071,7 +1143,7 @@ useEffect(() => {
                     <button
                       type="button"
                       disabled={loading}
-                      onClick={() => !loading && setIsRecentPromptsOpen(!isRecentPromptsOpen)}
+                      onClick={handleToggleRecentPrompts}
                       className={`absolute right-2 top-12 bg-indigo-600 text-white px-3 py-2 rounded-lg text-sm transition-colors duration-200 flex items-center gap-2 ${
                         loading
                           ? "cursor-not-allowed opacity-60"
@@ -1201,7 +1273,7 @@ useEffect(() => {
               <div className="relative" ref={dropdownRef}>
                 <button
                   type="button"
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  onClick={handleToggleDropdown}
                   className="w-full p-3 bg-slate-800 text-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 flex items-center justify-between text-sm text-left transition-all duration-200"
                 >
                   <span className="truncate pr-4">
@@ -1486,23 +1558,12 @@ useEffect(() => {
       {/* Recent Prompts Panel */}
       <RecentPromptsPanel
         recentPrompts={recentPrompts}
-        onSelectPrompt={(prompt) => {
-          setTextareaValue(prompt);
-          setValue("prompt", prompt);
-          setIsRecentPromptsOpen(false);
-        }}
+        onSelectPrompt={handleSelectRecentPrompt}
         onRemovePrompt={removePrompt}
         onClearAll={clearAll}
         isOpen={isRecentPromptsOpen}
-        onToggle={() => setIsRecentPromptsOpen(!isRecentPromptsOpen)}
-        text={{
-          recentPrompts: text.recentPrompts,
-          usePrompt: text.usePrompt,
-          delete: text.delete,
-          clearAll: text.clearAll,
-          noRecentPrompts: text.noRecentPrompts,
-          close: text.close,
-        }}
+        onToggle={handleToggleRecentPrompts}
+        text={recentPromptsText}
       />
 
       {showHelpModal && (
@@ -1521,7 +1582,7 @@ useEffect(() => {
             </div>
 
         <button
-        onClick={() => setShowHelpModal(false)}
+        onClick={handleCloseHelp}
         className="mt-6 w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg"
       >
         {text.close}

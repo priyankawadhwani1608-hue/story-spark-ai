@@ -1,11 +1,9 @@
-import React, { useEffect, useState, useRef, useMemo } from "react";
+import React, { useEffect, useState, useRef, useMemo, Suspense } from "react";
 import DOMPurify from "dompurify";
 import { getShortenedText, ITopicData, topicsData, getWordCount, SELECTED_TOPIC_CLASSES } from "./stories.utils";
 import toast, { Toaster } from "react-hot-toast";
 import { useCreatePostMutation, useDeletePostMutation } from "../../redux/apis/post.api";
 import { useGetProfileInfoQuery } from "../../redux/apis/user.api";
-import jsPDF from "jspdf";
-import StoryWorldMap from "../story-map/StoryWorldMap";
 import BookmarkButton from "../BookmarkButton";
 import logo from "../../assets/logoNew.png";
 import StoryGeneratingAnimation from "../loading/story-generating-animation.component";
@@ -16,7 +14,9 @@ import { setStory } from "../../redux/slices/storySlice";
 import ContinueStoryButton from "../story/ContinueStoryButton";
 import StoryCoverImage from "./StoryCoverImage";
 import StoryVisualizer from "../story-visualizer/StoryVisualizer";
-import StoryRemix from "../remix/StoryRemix";
+
+const StoryWorldMap = React.lazy(() => import("../story-map/StoryWorldMap"));
+const StoryRemix = React.lazy(() => import("../remix/StoryRemix"));
 import { useApiError } from "../../hooks/useApiError";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -495,6 +495,7 @@ const StoriesViewComponent: React.FC<StoriesComponentProps> = ({
         }
       }
 
+      const { default: jsPDF } = await import("jspdf");
       const doc = new jsPDF({
         orientation: "portrait",
         unit: "mm",
@@ -1387,24 +1388,28 @@ ${content}
       </div>
 
       {showWorldMap && selectedStory && (
-        <StoryWorldMap
-          story={selectedStory.content}
-          title={selectedStory.title}
-          onClose={() => setShowWorldMap(false)}
-        />
+        <Suspense fallback={<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 text-white font-semibold">Loading Map...</div>}>
+          <StoryWorldMap
+            story={selectedStory.content}
+            title={selectedStory.title}
+            onClose={() => setShowWorldMap(false)}
+          />
+        </Suspense>
       )}
 
       {showRemix && selectedStory && (
-        <StoryRemix
-          story={selectedStory}
-          isLogin={isLogin}
-          onRemixComplete={(remixedStory) => {
-            setStories([remixedStory, ...stories]);
-            setSelectedStory(remixedStory);
-            setShowRemix(false);
-          }}
-          onClose={() => setShowRemix(false)}
-        />
+        <Suspense fallback={<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 text-white font-semibold">Loading Remix...</div>}>
+          <StoryRemix
+            story={selectedStory}
+            isLogin={isLogin}
+            onRemixComplete={(remixedStory) => {
+              setStories([remixedStory, ...stories]);
+              setSelectedStory(remixedStory);
+              setShowRemix(false);
+            }}
+            onClose={() => setShowRemix(false)}
+          />
+        </Suspense>
       )}
 
       {showStoryVisualizer && storyboardScenes.length > 0 && (
@@ -1472,5 +1477,4 @@ ${content}
   );
 };
 
-export default StoriesViewComponent;
 export default StoriesViewComponent;
