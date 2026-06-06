@@ -15,13 +15,13 @@ const ErrorPage = () => {
     setIsReloading(true);
     try {
       // Preserve the active auth session so the user stays logged in
-      const accessToken = localStorage.getItem(AUTH_KEY);
+      const authToken = localStorage.getItem(AUTH_KEY);
 
       localStorage.clear();
       sessionStorage.clear();
 
       // Restore the auth token after clearing cache
-      if (accessToken) localStorage.setItem(AUTH_KEY, accessToken);
+      if (authToken) localStorage.setItem(AUTH_KEY, authToken);
 
       setTimeout(() => {
         window.location.reload();
