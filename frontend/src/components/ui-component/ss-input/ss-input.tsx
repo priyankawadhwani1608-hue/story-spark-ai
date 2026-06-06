@@ -32,9 +32,10 @@ const SSInput = <T extends FieldValues>({
   validation,
   error,
   autoComplete,
-  autoFocus
+  autoFocus,
 }: SSInputProps<T>) => {
   const [showPassword, setShowPassword] = useState(false);
+
 
 
 
@@ -55,9 +56,11 @@ const SSInput = <T extends FieldValues>({
 
 
 
+
             <i className={icon}></i>
           </span>
         )}
+
 
 
 
@@ -65,6 +68,7 @@ const SSInput = <T extends FieldValues>({
         <input
           type={inputType}
           id={name}
+
           placeholder={placeholder}
           autoComplete={autoComplete}
           autoFocus={autoFocus}
@@ -81,6 +85,7 @@ const SSInput = <T extends FieldValues>({
 
 
 
+
         {/* Right Password Eye Toggle */}
 
         {type === "password" && (
@@ -92,10 +97,12 @@ const SSInput = <T extends FieldValues>({
             className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none"
             aria-label={showPassword ? "Hide password" : "Show password"}
 
+
           >
             <i className={showPassword ? "fi fi-rr-eye" : "fi fi-rr-eye-crossed"}></i>
           </button>
         )}
+
 
       </div>
 
@@ -105,6 +112,7 @@ const SSInput = <T extends FieldValues>({
 
         <p className="text-red-500 text-sm mt-2">{error.message}</p>
       )}
+
 
 
 

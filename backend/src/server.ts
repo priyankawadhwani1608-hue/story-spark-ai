@@ -2,7 +2,7 @@ import { Application, Request, Response } from "express";
 import mongoose from "mongoose";
 import config from "./config";
 import app from "./app";
-import dns from "dns";
+import dns from "node:dns";
 import http from "http";
 import { Server } from "socket.io";
 import { JwtHelpers } from "./utils/jwt.helper";
@@ -16,15 +16,13 @@ if (config.disable_logs) {
   console.log = noop;
   console.info = noop;
   console.debug = noop;
-  console.warn = noop;
-  console.error = noop;
 }
 
 async function connectDB() {
   if (mongoose.connection.readyState === 1) return;
   // config.database_url is guaranteed non-empty by config/index.ts — it throws at
   // module load time if DATABASE_URL is missing, so no runtime guard is needed here.
-  await mongoose.connect(config.database_url);
+  await mongoose.connect(config.database_url as string);
 }
 
 async function main() {
@@ -34,13 +32,21 @@ async function main() {
     });
 
     const httpServer = http.createServer(app);
+    const defaultCorsOrigins =
+      process.env.NODE_ENV === "development"
+      ? ["http://localhost:4001", "http://localhost:4002"]
+      : [];
+
+    const socketCorsOrigins =
+      config.cors_origins && config.cors_origins.length > 0
+      ? config.cors_origins
+      : defaultCorsOrigins;
+
     const io = new Server(httpServer, {
-      cors: {
-        origin: config.cors_origins?.length
-          ? config.cors_origins
-          : ["http://localhost:4001", "https://storysparkai-five.vercel.app"],
-        credentials: true,
-      },
+        cors: {
+          origin: socketCorsOrigins,
+          credentials: true,
+        },
     });
 
     const [{ setNotificationSocket }, { setupCollabSocket }] = await Promise.all([

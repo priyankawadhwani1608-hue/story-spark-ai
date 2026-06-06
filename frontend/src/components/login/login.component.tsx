@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Link } from "react-router-dom";
+
 import SSInput from "../ui-component/ss-input/ss-input";
 import SSButton from "../ui-component/ss-button/ss-button";
 import { motion } from "framer-motion";
+
 import {
   useLoginUserMutation,
   useGoogleLoginMutation,
@@ -11,9 +13,11 @@ import {
 import { storeUserInfo, getUserInfo } from "../../services/auth.service";
 import { USER_ROLE } from "../../constants/role";
 import RedirectComponent from "../redirect.component";
+
 import toast, { Toaster } from "react-hot-toast";
 import { GoogleLogin, CredentialResponse } from "@react-oauth/google";
 import { WandSparkles, BookOpen, UsersRound } from "lucide-react";
+
 
 type Inputs = {
   email: string;
@@ -49,7 +53,9 @@ const LoginComponent = () => {
     }
   };
 
+
   const handleGoogleLoginSuccess = async (credentialResponse: CredentialResponse) => {
+
     setIsBusy(true);
     try {
       const res = await googleLogin({
@@ -74,19 +80,17 @@ const LoginComponent = () => {
   };
 
   if (isLoggedIn) {
-    const userInfo = getUserInfo();
-    const isDashboardUser =
-      userInfo?.role === USER_ROLE.ADMIN ||
-      userInfo?.role === USER_ROLE.SUPER_ADMIN;
     return (
       <RedirectComponent
-        defaultPath={isDashboardUser ? "/dashboard" : "/explore"}
+        defaultPath="/dashboard"
       />
     );
   }
 
   return (
+
     <div className="min-h-screen bg-white dark:bg-[#0B1120] text-slate-900 dark:text-slate-100 flex items-center justify-center relative overflow-hidden p-4 sm:p-8 box-border">
+
       {/* Background Glow */}
       <motion.div 
         initial={{ opacity: 0, scale: 0.8 }}
@@ -94,6 +98,7 @@ const LoginComponent = () => {
         transition={{ duration: 1.5 }}
         className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-600/20 rounded-full blur-[120px] pointer-events-none" 
       />
+
 
       <motion.div 
         initial={{ opacity: 0, scale: 0.8 }}
@@ -141,6 +146,7 @@ const LoginComponent = () => {
 
         {/* Right side — login form card */}
         <div className="w-full max-w-md bg-slate-50 dark:bg-slate-800/60 backdrop-blur-xl border border-slate-200 dark:border-slate-700/50 rounded-2xl p-8 sm:p-10 shadow-2xl relative z-10 box-border">
+
           {/* Back to Home */}
           <button
             onClick={() => (window.location.href = "/")}
@@ -158,7 +164,9 @@ const LoginComponent = () => {
             </p>
           </div>
 
+
           <form className="space-y-5 w-full min-w-0 box-border" onSubmit={handleSubmit(onSubmit)}>
+
             <SSInput
               label="Email address"
               name="email"
@@ -204,15 +212,19 @@ const LoginComponent = () => {
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-slate-200 dark:border-slate-800" />
             </div>
+
             <div className="relative flex justify-center text-xs uppercase">
               <span className="bg-white dark:bg-slate-900 px-4 text-slate-400 dark:text-slate-500 font-semibold tracking-wide">
                 Or
+
               </span>
             </div>
           </div>
 
+
           {/* Social Identity OAuth Block Container */}
           <div className="flex justify-center list-none w-full box-border">
+
             <GoogleLogin
               onSuccess={handleGoogleLoginSuccess}
               onError={handleGoogleLoginError}
@@ -229,8 +241,10 @@ const LoginComponent = () => {
             </Link>
           </p>
         </div>
+
         </div>
       </div>
+
 
       <Toaster position="top-right" reverseOrder={false} />
     </div>
