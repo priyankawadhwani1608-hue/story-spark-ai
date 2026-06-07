@@ -1,9 +1,9 @@
 import { FC, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FAQItem } from "../help_center.utils";
+import { FaqItem } from "../help_center.utils";
 
 interface FAQAccordionProps {
-  items: FAQItem[];
+  items: FaqItem[];
 }
 
 const FAQAccordion: FC<FAQAccordionProps> = ({ items }) => {
@@ -64,43 +64,38 @@ const FAQAccordion: FC<FAQAccordionProps> = ({ items }) => {
                 }`}
               />
 
-              <button
-                id={buttonId}
-                type="button"
-                onClick={() => toggleAccordion(index)}
-                aria-expanded={isOpen}
-                aria-controls={panelId}
-                className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left transition-all duration-200 hover:bg-slate-50 dark:hover:bg-white/[0.02] focus:outline-none"
-              >
-                <span className="text-sm sm:text-base text-slate-900 dark:text-slate-200 font-bold pr-4 tracking-tight leading-snug">
-                  {faq.question}
-                </span>
-                <span
-                  className={`flex-shrink-0 w-8 h-8 rounded-full bg-slate-100 dark:bg-white/5 flex items-center justify-center text-slate-500 dark:text-slate-400 transition-transform duration-300 ${
-                    isOpen ? "rotate-180 bg-blue-500/10 text-blue-600 dark:text-blue-400" : ""
-                  }`}
-                  aria-hidden="true"
+              {/* Question Button */}
+              <h3>
+                <button
+                  type="button"
+                  onClick={() => toggleAccordion(index)}
+                  aria-expanded={isOpen}
+                  className="w-full flex items-center justify-between px-6 py-5 text-left transition-all duration-300 hover:bg-slate-50 dark:hover:bg-white/[0.03] cursor-pointer"
                 >
-                  <i className="fa-solid fa-chevron-down text-xs"></i>
-                </span>
-              </button>
+                  <span className="text-slate-900 dark:text-slate-100 font-bold pr-4">
+                    {faq.question}
+                  </span>
+                  <span
+                    className={`flex-shrink-0 w-8 h-8 rounded-full bg-indigo-50 dark:bg-indigo-500/20 flex items-center justify-center text-indigo-600 dark:text-indigo-400 transition-transform duration-300 ${
+                      isOpen ? "rotate-180" : ""
+                    }`}
+                  >
+                    <i className="fa-solid fa-chevron-down text-xs"></i>
+                  </span>
+                </button>
+              </h3>
 
+              {/* Animated Answer Panel */}
               <AnimatePresence initial={false}>
                 {isOpen && (
                   <motion.div
-                    key={panelId}
-                    id={panelId}
-                    role="region"
-                    aria-labelledby={buttonId}
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="overflow-hidden"
+                    transition={{ duration: 0.25, ease: "easeInOut" }}
                   >
-
                     <div className="px-6 pb-6">
-                      <div className="rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-slate-100 dark:border-white/5 p-5">
+                      <div className="rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-slate-100 dark:border-white/5 p-5">
                         <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm">
                           {faq.answer}
                         </p>

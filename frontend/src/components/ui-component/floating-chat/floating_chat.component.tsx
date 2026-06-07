@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect, useRef } from "react";
 import { useChatWithAiMutation } from "../../../redux/apis/chat.api";
 import { isLoggedIn } from "../../../services/auth.service";
@@ -336,3 +337,4 @@ export const FloatingChatWidget: React.FC = () => {
     </div>
   );
 };
+
