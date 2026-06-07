@@ -46,17 +46,18 @@ const FAQAccordion: FC<FAQAccordionProps> = ({ items }) => {
       <div className="space-y-5">
         {items.map((faq, index) => {
           const isOpen = openIndex === index;
+          const buttonId = `faq-button-${faq.id}`;
+          const panelId = `faq-panel-${faq.id}`;
 
           return (
-            <motion.div
+            <motion.article
               key={faq.id}
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.05 }}
-              className="group overflow-hidden rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/[0.04] backdrop-blur-xl shadow-md hover:shadow-xl transition-all duration-300"
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.3) }}
+              className="group overflow-hidden rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#111827]/40 backdrop-blur-xl shadow-sm hover:shadow-md transition-all duration-300 w-full box-border"
             >
-              {/* Top Glow Line */}
               <div
                 className={`h-[2px] w-full bg-gradient-to-r from-indigo-500 via-blue-500 to-purple-500 transition-opacity duration-300 ${
                   isOpen ? "opacity-100" : "opacity-0"
@@ -103,7 +104,7 @@ const FAQAccordion: FC<FAQAccordionProps> = ({ items }) => {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </motion.div>
+            </motion.article>
           );
         })}
       </div>

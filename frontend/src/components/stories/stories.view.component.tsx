@@ -6,6 +6,7 @@ import { useGetProfileInfoQuery } from "../../redux/apis/user.api";
 import jsPDF from "jspdf";
 import StoryWorldMap from "../story-map/StoryWorldMap";
 import BookmarkButton from "../BookmarkButton";
+import CardCollection from "../cards/CardCollection";
 import logo from "../../assets/logoNew.png";
 import StoryGeneratingAnimation from "../loading/story-generating-animation.component";
 import AudioPlayer, { type AudioPlayerHandle, type NarrationPlaybackState } from "../AudioPlayer";

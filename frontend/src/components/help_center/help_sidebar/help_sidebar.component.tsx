@@ -83,6 +83,11 @@ const HelpSidebar = () => {
                   Navigate through guides, troubleshooting, setup instructions, and support resources.
                 </p>
               </div>
+              <h2 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">Help Center</h2>
+              <p className="mt-1.5 text-xs font-medium leading-relaxed text-slate-500 dark:text-slate-400">
+                Navigate through core system documentation architecture nodes.
+              </p>
+            </div>
 
               <div className="relative space-y-3">
                 {HELP_SECTIONS.map((section) => {
@@ -97,6 +102,21 @@ const HelpSidebar = () => {
                           : "border-slate-200 dark:border-white/5 bg-white/50 dark:bg-white/[0.03] hover:border-blue-200 dark:hover:border-white/10 hover:bg-slate-50 dark:hover:bg-white/[0.05]"
                       }`}
                     >
+                      <i className={`fa-solid ${section.icon} text-sm`} aria-hidden="true" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className={`font-bold text-xs sm:text-sm tracking-tight transition-colors duration-200 ${isActive ? "text-blue-600 dark:text-blue-400" : "text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white"}`}>
+                        {section.label}
+                      </p>
+                    </div>
+                    <div className="shrink-0">
+                      <div className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${isActive ? "bg-blue-500 scale-125 shadow-[0_0_8px_rgba(59,130,246,0.6)]" : "bg-slate-300 dark:bg-slate-700"}`} />
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
                       {isActive && (
                         <motion.div
                           layoutId="sidebar-active-pill"

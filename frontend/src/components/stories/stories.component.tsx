@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import StoriesViewComponent, { IStories } from "./stories.view.component";
 import RecentPromptsPanel from "./RecentPromptsPanel";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -362,7 +362,7 @@ interface TonePickerProps {
   onChange: (tone: ToneLabel | "") => void;
 }
 
-const TonePicker: React.FC<TonePickerProps> = ({ selected, onChange }) => {
+const TonePicker: React.FC<TonePickerProps> = React.memo(({ selected, onChange }) => {
   return (
     <div className="flex flex-wrap gap-2 mb-3">
       <span className="w-full text-xs text-gray-400 mb-1">ðŸŽ­ Tone:</span>
@@ -389,6 +389,21 @@ const TonePicker: React.FC<TonePickerProps> = ({ selected, onChange }) => {
       })}
     </div>
   );
+});
+
+const getStoryDedupKey = (story: IStories) => {
+  const storyData = story as Partial<IStories> & {
+    id?: string;
+    _id?: string;
+    uuid?: string;
+  };
+  const title = String(storyData.title ?? "").trim().toLowerCase();
+  const content = String(storyData.content ?? "").trim().toLowerCase();
+  const tag = String(storyData.tag ?? "").trim().toLowerCase();
+
+  return title || content || tag
+    ? `${title}-${content}-${tag}`
+    : String(storyData.uuid ?? storyData._id ?? storyData.id ?? "");
 };
 
 const getStoryDedupKey = (story: IStories) => {
@@ -557,7 +572,6 @@ useEffect(() => {
         length: selectedLength,
         language: selectedLanguage,
         tone: selectedTone,
-        stories: stories,
       };
       try {
         localStorage.setItem("story_spark_draft", JSON.stringify(draftData));
@@ -568,7 +582,7 @@ useEffect(() => {
       }
     }, 1000);
     return () => clearTimeout(timer);
-  }, [textareaValue, selectedGenre, selectedLength, selectedLanguage, selectedTone, stories]);
+  }, [textareaValue, selectedGenre, selectedLength, selectedLanguage, selectedTone]);
 
   useEffect(() => {
     const selectedLocale =
@@ -628,8 +642,8 @@ useEffect(() => {
 }, [location, navigate, setSelectedGenre, setTextareaValue]);
 
   useEffect(() => {
-    setValue("prompt", textareaValue);
-  }, [textareaValue, setValue]);
+  setValue("prompt", debouncedPrompt);
+}, [debouncedPrompt, setValue]);
 
   useEffect(() => {
     return () => {
@@ -747,6 +761,20 @@ useEffect(() => {
     setValue("prompt", "");
     reset();
   };
+  }, [
+    login,
+    guestRequestCount,
+    selectedGenre,
+    selectedLength,
+    selectedLanguage,
+    selectedTone,
+    generateModel,
+    generateFreeModel,
+    addPrompt,
+    setValue,
+    playSoundtrack,
+    handleCancelGeneration,
+  ]);
 
   const isOverLimit = textareaValue.length >= MAX_PROMPT_LENGTH;
   const isNearLimit = textareaValue.length >= MAX_PROMPT_LENGTH * WARN_THRESHOLD;
@@ -773,6 +801,29 @@ useEffect(() => {
     },
     hasStory: stories.length > 0,
   });
+
+  const handleSelectRecentPrompt = useCallback((prompt: string) => {
+    setTextareaValue(prompt);
+    setValue("prompt", prompt);
+    setIsRecentPromptsOpen(false);
+  }, [setValue]);
+
+  const handleToggleRecentPrompts = useCallback(() => {
+    setIsRecentPromptsOpen((prev) => !prev);
+  }, []);
+
+  const handleToggleDropdown = useCallback(() => {
+    setIsDropdownOpen((prev) => !prev);
+  }, []);
+
+  const recentPromptsText = useMemo(() => ({
+    recentPrompts: text.recentPrompts,
+    usePrompt: text.usePrompt,
+    delete: text.delete,
+    clearAll: text.clearAll,
+    noRecentPrompts: text.noRecentPrompts,
+    close: text.close,
+  }), [text]);
 
   return (
     <div className="min-h-screen bg-white text-slate-900 animate-gradient-slow transition-colors duration-300 dark:bg-[#0b1329] dark:text-white">
@@ -1172,23 +1223,12 @@ useEffect(() => {
       {/* Recent Prompts Panel */}
       <RecentPromptsPanel
         recentPrompts={recentPrompts}
-        onSelectPrompt={(prompt) => {
-          setTextareaValue(prompt);
-          setValue("prompt", prompt);
-          setIsRecentPromptsOpen(false);
-        }}
+        onSelectPrompt={handleSelectRecentPrompt}
         onRemovePrompt={removePrompt}
         onClearAll={clearAll}
         isOpen={isRecentPromptsOpen}
-        onToggle={() => setIsRecentPromptsOpen(!isRecentPromptsOpen)}
-        text={{
-          recentPrompts: text.recentPrompts,
-          usePrompt: text.usePrompt,
-          delete: text.delete,
-          clearAll: text.clearAll,
-          noRecentPrompts: text.noRecentPrompts,
-          close: text.close,
-        }}
+        onToggle={handleToggleRecentPrompts}
+        text={recentPromptsText}
       />
 
       {showHelpModal && (

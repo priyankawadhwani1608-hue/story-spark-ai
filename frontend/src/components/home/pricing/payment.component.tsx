@@ -99,118 +99,26 @@ const PaymentComponent = () => {
               </div>
             </div>
 
-            <form
-              className="space-y-5"
-              onSubmit={(e) => {
-                e.preventDefault();
-                handlePay();
-              }}
-            >
-              {/* Cardholder Name */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-200">
-                  Cardholder Name
-                </label>
+            {/* Error Message Layout */}
+            {error && (
+              <p className="text-sm text-red-500 text-center mb-4 font-medium bg-red-500/10 py-2.5 px-4 rounded-xl border border-red-500/20">
+                {error}
+              </p>
+            )}
 
-                <input
-                  type="text"
-                  placeholder="John Doe"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full rounded-2xl border border-slate-700/80 bg-slate-900/70 px-4 py-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-400/20"
-                />
-              </div>
-
-              {/* Card Number */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-200">
-                  Card Number
-                </label>
-
-                <div className="relative">
-                  <CreditCard
-                    className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
-                    size={18}
-                  />
-
-                  <input
-                    type="text"
-                    placeholder="1234 5678 9012 3456"
-                    value={cardNumber}
-                    onChange={(e) =>
-                      setCardNumber(formatCardNumber(e.target.value))
-                    }
-                    className="w-full rounded-2xl border border-slate-700/80 bg-slate-900/70 py-4 pl-11 pr-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-400/20"
-                  />
-                </div>
-              </div>
-
-              {/* Expiry + CVV */}
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-slate-200">
-                    Expiry Date
-                  </label>
-
-                  <input
-                    type="text"
-                    placeholder="MM/YY"
-                    value={expiry}
-                    onChange={(e) =>
-                      setExpiry(formatExpiry(e.target.value))
-                    }
-                    className="w-full rounded-2xl border border-slate-700/80 bg-slate-900/70 px-4 py-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-400/20"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-slate-200">
-                    CVC
-                  </label>
-
-                  <input
-                    type="password"
-                    placeholder="123"
-                    value={cvv}
-                    onChange={(e) =>
-                      setCvv(
-                        e.target.value.replace(/\D/g, "").slice(0, 3)
-                      )
-                    }
-                    className="w-full rounded-2xl border border-slate-700/80 bg-slate-900/70 px-4 py-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-400/20"
-                  />
-                </div>
-              </div>
-
-              {/* Pay Button */}
+            {/* Payment Action Submission Trigger Form */}
+            <form className="space-y-5" onSubmit={handlePayment}>
               <button
                 type="submit"
-                disabled={loading || !isFormValid}
+                disabled={loading}
                 className="motion-cta inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 px-5 py-4 text-base font-semibold text-white shadow-lg shadow-cyan-500/20 transition hover:shadow-cyan-500/30 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {loading ? (
                   <>
-                    <svg
-                      className="h-5 w-5 animate-spin"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      />
-
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8v8z"
-                      />
+                    <svg className="h-5 w-5 animate-spin" viewBox="0 0 24 24" fill="none">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
                     </svg>
-
                     Processing...
                   </>
                 ) : (
@@ -222,8 +130,8 @@ const PaymentComponent = () => {
               </button>
 
               <p className="text-xs leading-5 text-slate-400">
-                Your payment information is protected with encrypted processing
-                and is never stored on our servers.
+                Your verification processing details are protected with standard gateway layers. 
+                Sensitive financial credentials are safe inside standard sandboxed overlay systems.
               </p>
             </form>
 
