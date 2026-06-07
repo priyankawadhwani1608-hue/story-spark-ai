@@ -281,6 +281,7 @@ const LoginComponent = () => {
             </Link>
           </p>
         </div>
+      </div>
 
         </div>
       </div>

@@ -144,7 +144,6 @@ const PricingComponent: React.FC = () => {
             and upgrade whenever you're ready to unlock advanced AI tools.
           </p>
         </div>
-
         {/* Social Proof */}
         <div className="mb-14">
           <div className="grid grid-cols-1 gap-8 text-center sm:grid-cols-3">

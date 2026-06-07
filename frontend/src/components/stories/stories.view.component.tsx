@@ -15,6 +15,7 @@ import {
 import StoryWorldMap from "../story-map/StoryWorldMap";
 import StoryRemix from "../remix/StoryRemix";
 import BookmarkButton from "../BookmarkButton";
+import CardCollection from "../cards/CardCollection";
 import logo from "../../assets/logoNew.png";
 import StoryGeneratingAnimation from "../loading/story-generating-animation.component";
 import AudioPlayer, { type AudioPlayerHandle, type NarrationPlaybackState } from "../AudioPlayer";
@@ -2270,6 +2271,15 @@ ${content}
               </div>
             )}
           </div>
+        ) : (
+          <div className="text-center py-12 text-slate-500">No stories available.</div>
+        )}
+
+        <CardCollection
+          stories={stories}
+          selectedStoryId={selectedStory?.uuid}
+          onSelectStory={setSelectedStory}
+        />
 
           {/* Topics management section */}
           <div className="bg-white dark:bg-[#111827]/40 backdrop-blur-xl border border-slate-200 dark:border-white/10 p-5 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm w-full box-border text-left">

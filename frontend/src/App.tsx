@@ -1,7 +1,13 @@
 import React, { lazy, Suspense } from "react";
 
+import React from "react";
 import { createBrowserRouter, Navigate, Outlet, RouterProvider } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
+import StoryInspirationWrapper from "./components/StoryInspirationWrapper";
+import WritingAssistantComponent from "./components/writing-assistant/writing_assistant.component";
+import CollabHome from "./components/collab/CollabHome";
+import CollabRoom from "./components/collab/CollabRoom";
+import StoriesComponent from "./components/stories/stories.component";
 import ScrollToTopButton from "./components/ScrollToTopButton";
 import MagicCursorComponent from "./components/magic-cursor/magic_cursor.component";
 import HeroSectionComponent from "./components/hero/hero_section.component";
@@ -61,10 +67,6 @@ const SettingComponent = lazy(() => import("./components/dashboard/settings/sett
 const PublishedStoriesComponent = lazy(() => import("./components/dashboard/posts/published_stories.component"));
 const AnalyticsPage = lazy(() => import("./components/dashboard/analytics/analytics.page"));
 const PostListsComponent = lazy(() => import("./components/dashboard/posts/post_lists.component"));
-import React from "react";
-import { createBrowserRouter, Navigate, Outlet, RouterProvider } from "react-router-dom";
-import ScrollToTopButton from "./components/ScrollToTopButton";
-import MagicCursorComponent from "./components/magic-cursor/magic_cursor.component";
 import NotFoundComponent from "./components/not-found.component";
 import StoryInspirationWrapper from "./components/StoryInspirationWrapper";
 import WritingAssistantComponent from "./components/writing-assistant/writing_assistant.component";
@@ -105,6 +107,8 @@ import PrivacyPolicy from "./components/footer/Privacy.tsx";
 import ProfileComponent from "./components/dashboard/profile/profile.component";
 import PublishedStoriesComponent from "./components/dashboard/posts/published_stories.component";
 import ReportBug from "./components/report-bug/ReportBug";
+import AnalyticsPage from "./components/dashboard/analytics/analytics.page";
+import StoryWorkspace from "./components/story/StoryWorkspace";
 import ResourceDetailComponent from "./components/community/resource_detail.component";
 import ResourcesListComponent from "./components/community/resources_list.component";
 import ScrollToTopButton from "./components/ScrollToTopButton";
@@ -117,6 +121,7 @@ import TemplatesComponent from "./components/templates/templates.component";
 import Terms from "./components/footer/terms.tsx";
 import UserComponent from "./components/dashboard/users/user.component";
 import WriterApplicationComponent from "./components/dashboard/writers/writer_application.component";
+
 
 type ProtectedRouteProps = {
   allowedRoles: string[];
