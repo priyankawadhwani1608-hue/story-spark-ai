@@ -5,9 +5,19 @@ interface StoryState {
   currentStory: Story | null;
 }
 
-const initialState: StoryState = {
-  currentStory: null,
+const loadStoryFromStorage = (): Story | null => {
+  try {
+    const raw = localStorage.getItem("story");
+    if (!raw) return null;
+    return JSON.parse(raw) as Story;
+  } catch {
+    return null;
+  }
 };
+
+const initialState: StoryState = {
+  currentStory: loadStoryFromStorage(),
+}; 
 
 const storySlice = createSlice({
   name: "story",
