@@ -18,7 +18,7 @@ export const validateAndFormatPrompt = (userPrompt: string): string => {
       throw new Error("Security Violation: Malicious prompt injection detected.");
     }
   }
-  
+
   // 2. Strict Delimiters
   return `"""\n${userPrompt}\n"""`;
 };
